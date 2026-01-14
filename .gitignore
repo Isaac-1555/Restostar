@@ -1,5 +1,2 @@
-# Ignore the separate implementation repository living inside this docs repo
-restostar-app/
-
 # macOS
 .DS_Store

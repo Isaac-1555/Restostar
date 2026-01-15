@@ -43,6 +43,23 @@ export const submitReview = mutation({
         throw new Error("Invalid email");
       }
 
+      // Check if this email already received a coupon for this restaurant
+      const existingCoupon = await ctx.db
+        .query("customerCoupons")
+        .withIndex("by_restaurantId_email", (q) =>
+          q.eq("restaurantId", restaurant._id).eq("email", normalizedEmail)
+        )
+        .first();
+
+      if (existingCoupon) {
+        return {
+          reviewId,
+          couponCode: null,
+          alreadyReceivedCoupon: true,
+          existingCouponCode: existingCoupon.couponCode,
+        };
+      }
+
       // Generate a unique coupon code.
       for (let i = 0; i < 5; i++) {
         const candidate = generateCouponCode();
@@ -103,7 +120,7 @@ export const submitReview = mutation({
       }
     }
 
-    return { reviewId, couponCode };
+    return { reviewId, couponCode, alreadyReceivedCoupon: false, existingCouponCode: null };
   },
 });
 

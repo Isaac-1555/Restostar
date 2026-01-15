@@ -77,11 +77,11 @@ export const generateInsights = action({
     timeRange: v.union(v.literal("daily"), v.literal("monthly"), v.literal("all")),
   },
   handler: async (ctx, args) => {
-    const openaiKey = process.env.OPENAI_API_KEY;
-    const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
-    if (!openaiKey) {
-      throw new Error("Missing Convex env var: OPENAI_API_KEY");
+    if (!geminiKey) {
+      throw new Error("Missing Convex env var: GEMINI_API_KEY");
     }
 
     // Auth + authorization: ensure the restaurant belongs to the signed-in owner.
@@ -118,7 +118,7 @@ export const generateInsights = action({
 
     const prompt = [
       "You analyze restaurant customer feedback.",
-      "Return JSON only with keys:",
+      "Return JSON only (no markdown, no code fences) with keys:",
       "- sentimentSummary: string (short paragraph)",
       "- keyComplaints: string[] (max 5)",
       "- suggestions: string[] (max 5, actionable)",
@@ -130,39 +130,37 @@ export const generateInsights = action({
       ...reviewLines,
     ].join("\n");
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${openaiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        temperature: 0.2,
-        response_format: { type: "json_object" },
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: prompt },
-        ],
-      }),
-    });
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.2,
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
 
     if (!res.ok) {
       const text = await res.text();
-      throw new Error(`OpenAI error: ${res.status} ${text}`);
+      throw new Error(`Gemini error: ${res.status} ${text}`);
     }
 
     const data = await res.json();
-    const content = data?.choices?.[0]?.message?.content;
+    const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!content || typeof content !== "string") {
-      throw new Error("Unexpected OpenAI response");
+      throw new Error("Unexpected Gemini response");
     }
 
     let parsed: any;
     try {
       parsed = JSON.parse(content);
     } catch {
-      throw new Error("Failed to parse OpenAI JSON response");
+      throw new Error("Failed to parse Gemini JSON response");
     }
 
     const sentimentSummary = String(parsed.sentimentSummary ?? "").trim();
@@ -174,7 +172,7 @@ export const generateInsights = action({
       : [];
 
     if (!sentimentSummary) {
-      throw new Error("OpenAI response missing sentimentSummary");
+      throw new Error("Gemini response missing sentimentSummary");
     }
 
     await ctx.runMutation(internal.ai.saveInsights, {

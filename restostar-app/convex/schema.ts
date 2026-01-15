@@ -57,7 +57,8 @@ export default defineSchema({
   })
     .index("by_couponCode", ["couponCode"])
     .index("by_reviewId", ["reviewId"])
-    .index("by_restaurantId", ["restaurantId"]),
+    .index("by_restaurantId", ["restaurantId"])
+    .index("by_restaurantId_email", ["restaurantId", "email"]),
 
   aiInsights: defineTable({
     restaurantId: v.id("restaurants"),

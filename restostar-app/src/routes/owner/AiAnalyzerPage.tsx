@@ -176,9 +176,6 @@ export function AiAnalyzerPage() {
             )}
           </div>
 
-          <p className="text-xs text-sage-500">
-            Requires Convex env var <code className="font-mono bg-cream-100 px-1 rounded">OPENAI_API_KEY</code>.
-          </p>
         </div>
       )}
     </div>

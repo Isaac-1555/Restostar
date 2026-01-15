@@ -14,6 +14,7 @@ export function ReviewFunnelPage() {
   const [feedbackText, setFeedbackText] = useState("");
   const [email, setEmail] = useState("");
   const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [alreadyReceivedCoupon, setAlreadyReceivedCoupon] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [flowState, setFlowState] = useState<FlowState>("rating");
@@ -44,7 +45,12 @@ export function ReviewFunnelPage() {
         stars,
         email: email.trim() || undefined,
       });
-      setCouponCode(result.couponCode);
+      if (result.alreadyReceivedCoupon) {
+        setAlreadyReceivedCoupon(true);
+        setCouponCode(result.existingCouponCode ?? null);
+      } else {
+        setCouponCode(result.couponCode);
+      }
       setFlowState("submitted");
 
       // Open Google Maps in new tab
@@ -73,7 +79,12 @@ export function ReviewFunnelPage() {
         feedbackText: feedbackText.trim() || undefined,
         email: email.trim() || undefined,
       });
-      setCouponCode(result.couponCode);
+      if (result.alreadyReceivedCoupon) {
+        setAlreadyReceivedCoupon(true);
+        setCouponCode(result.existingCouponCode ?? null);
+      } else {
+        setCouponCode(result.couponCode);
+      }
       setFlowState("submitted");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");
@@ -108,13 +119,19 @@ export function ReviewFunnelPage() {
 
           {couponCode && (
             <div className="pt-2 border-t border-lime-200">
-              <p className="text-xs text-sage-500 mb-1">Your coupon code:</p>
+              <p className="text-xs text-sage-500 mb-1">
+                {alreadyReceivedCoupon ? "Your existing coupon code:" : "Your coupon code:"}
+              </p>
               <p className="font-mono font-bold text-sage-700 text-lg">{couponCode}</p>
-              {email && (
+              {alreadyReceivedCoupon ? (
+                <p className="text-xs text-sage-500 mt-1">
+                  You've already received a coupon for this restaurant.
+                </p>
+              ) : email ? (
                 <p className="text-xs text-sage-500 mt-1">
                   We've also sent this to your email.
                 </p>
-              )}
+              ) : null}
             </div>
           )}
         </div>

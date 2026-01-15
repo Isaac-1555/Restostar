@@ -10,10 +10,10 @@ async function generateSympatheticMessage(
   customerFeedback: string,
   couponDiscount: string | undefined
 ): Promise<string> {
-  const openaiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+  const geminiKey = process.env.GEMINI_API_KEY;
+  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
-  if (!openaiKey) {
+  if (!geminiKey) {
     // Fallback if no API key
     return `We're truly sorry to hear about your experience at ${restaurantName}. Your feedback means a lot to us, and we're committed to making things right.`;
   }
@@ -30,29 +30,27 @@ async function generateSympatheticMessage(
   ].filter(Boolean).join("\n");
 
   try {
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${openaiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        temperature: 0.7,
-        max_tokens: 150,
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: prompt },
-        ],
-      }),
-    });
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 150,
+          },
+        }),
+      }
+    );
 
     if (!res.ok) {
-      throw new Error(`OpenAI error: ${res.status}`);
+      throw new Error(`Gemini error: ${res.status}`);
     }
 
     const data = await res.json();
-    const content = data?.choices?.[0]?.message?.content;
+    const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (content && typeof content === "string") {
       return content.trim();

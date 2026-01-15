@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { api } from "@/convex";
+import { QrCodeCard } from "@/components/QrCodeCard";
 
 export function DashboardPage() {
   const restaurants = useQuery(api.restaurants.listMyRestaurants);
@@ -73,12 +74,15 @@ export function DashboardPage() {
               </select>
             </label>
 
-            {selected && (
-              <p className="mt-2 text-xs text-sage-500">
-                QR: <code className="font-mono bg-lime-50 px-1.5 py-0.5 rounded text-sage-600">/r/{selected.publicId}/{selected.slug}</code>
-              </p>
-            )}
           </div>
+
+          {selected && (
+            <QrCodeCard
+              publicId={selected.publicId}
+              slug={selected.slug}
+              restaurantName={selected.name}
+            />
+          )}
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border border-sage-200 bg-white p-4 shadow-sm">

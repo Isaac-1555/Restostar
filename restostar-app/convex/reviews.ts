@@ -80,15 +80,27 @@ export const submitReview = mutation({
         .unique();
 
       // Fire-and-forget email sending.
-      await ctx.scheduler.runAfter(0, internal.email.sendCouponEmail, {
-        to: normalizedEmail,
-        restaurantName: restaurant.name,
-        couponCode,
-        sentimentType,
-        googleMapsUrl: restaurant.googleMapsUrl,
-        offerTitle: couponConfig?.title,
-        offerDiscountValue: couponConfig?.discountValue,
-      });
+      // For negative reviews, use AI-generated sympathetic email
+      if (sentimentType === "negative") {
+        await ctx.scheduler.runAfter(0, internal.email.sendNegativeCouponEmail, {
+          to: normalizedEmail,
+          restaurantName: restaurant.name,
+          couponCode,
+          customerFeedback: args.feedbackText?.trim() || undefined,
+          offerTitle: couponConfig?.title,
+          offerDiscountValue: couponConfig?.discountValue,
+        });
+      } else {
+        await ctx.scheduler.runAfter(0, internal.email.sendCouponEmail, {
+          to: normalizedEmail,
+          restaurantName: restaurant.name,
+          couponCode,
+          sentimentType,
+          googleMapsUrl: restaurant.googleMapsUrl,
+          offerTitle: couponConfig?.title,
+          offerDiscountValue: couponConfig?.discountValue,
+        });
+      }
     }
 
     return { reviewId, couponCode };

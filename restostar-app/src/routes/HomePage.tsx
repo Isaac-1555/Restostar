@@ -1,34 +1,45 @@
 import { Link } from "react-router-dom";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import {
+  QrCode,
+  Star,
+  Gift,
+  Bot,
+  BarChart3,
+  CheckCircle,
+  Rocket,
+  Target,
+  Sparkles,
+} from "lucide-react";
 
 const features = [
   {
-    icon: "📱",
+    icon: QrCode,
     title: "QR Code Reviews",
     description: "Generate unique QR codes for each table. Customers scan and leave feedback instantly.",
   },
   {
-    icon: "⭐",
+    icon: Star,
     title: "Smart Review Routing",
     description: "Happy customers get directed to Google Reviews. Concerns come straight to you privately.",
   },
   {
-    icon: "🎁",
+    icon: Gift,
     title: "Automated Coupons",
     description: "Reward feedback with personalized coupons. Each code is unique and trackable.",
   },
   {
-    icon: "🤖",
+    icon: Bot,
     title: "AI Insights",
     description: "Our AI analyzes feedback patterns to identify trends, common complaints, and opportunities.",
   },
   {
-    icon: "📊",
+    icon: BarChart3,
     title: "Owner Dashboard",
     description: "See all reviews, star distributions, and feedback in one beautiful dashboard.",
   },
   {
-    icon: "✅",
+    icon: CheckCircle,
     title: "Coupon Verification",
     description: "Built-in verifier ensures each coupon can only be used once. No fraud, no hassle.",
   },
@@ -64,7 +75,7 @@ export function HomePage() {
       <section className="bg-gradient-to-br from-cream via-lime-50 to-sage-50 px-4 py-16 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-lime-200 px-4 py-1.5 text-sm font-medium text-sage-700">
-            <span className="animate-pulse">🚀</span>
+            <Rocket className="h-4 w-4 animate-pulse" />
             Now in Beta — Join Early for Free
           </div>
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-sage-700 md:text-5xl lg:text-6xl">
@@ -112,8 +123,8 @@ export function HomePage() {
       <section className="border-y border-sage-200 bg-white px-4 py-16">
         <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
           <div className="space-y-4">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100 text-2xl">
-              🎯
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100">
+              <Target className="h-6 w-6 text-sage-600" />
             </div>
             <h2 className="text-2xl font-bold text-sage-700">Our Mission</h2>
             <p className="text-sage-600 leading-relaxed">
@@ -123,8 +134,8 @@ export function HomePage() {
             </p>
           </div>
           <div className="space-y-4">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100 text-2xl">
-              🔮
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100">
+              <Sparkles className="h-6 w-6 text-sage-600" />
             </div>
             <h2 className="text-2xl font-bold text-sage-700">Our Vision</h2>
             <p className="text-sage-600 leading-relaxed">
@@ -152,8 +163,8 @@ export function HomePage() {
                 key={feature.title}
                 className="rounded-xl border border-sage-200 bg-white p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1"
               >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100 text-2xl">
-                  {feature.icon}
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-100">
+                  <feature.icon className="h-6 w-6 text-sage-600" />
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-sage-700">{feature.title}</h3>
                 <p className="text-sm text-sage-600 leading-relaxed">{feature.description}</p>

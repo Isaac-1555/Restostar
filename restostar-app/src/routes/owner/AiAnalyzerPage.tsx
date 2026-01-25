@@ -1,5 +1,6 @@
 import { useAction, useQuery } from "convex/react";
 import { useMemo, useState } from "react";
+import { Bot, BarChart3 } from "lucide-react";
 
 import { api } from "@/convex";
 
@@ -62,8 +63,8 @@ export function AiAnalyzerPage() {
         <div className="text-sm text-sage-500">Loading…</div>
       ) : restaurants.length === 0 ? (
         <div className="rounded-lg border border-sage-200 bg-white p-6 text-center shadow-sm">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime-100 text-2xl mb-3">
-            🤖
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime-100 mb-3">
+            <Bot className="h-6 w-6 text-sage-600" />
           </div>
           <p className="text-sage-700 font-medium">No restaurants yet</p>
           <p className="text-sm text-sage-600 mt-1">Create a restaurant first to start analyzing feedback.</p>
@@ -118,7 +119,7 @@ export function AiAnalyzerPage() {
             onClick={handleGenerate}
             disabled={isGenerating}
           >
-            {isGenerating ? "Generating…" : "🤖 Generate Insights"}
+            {isGenerating ? "Generating…" : <><Bot className="inline h-4 w-4 mr-1" /> Generate Insights</>}
           </button>
 
           <div className="rounded-lg bg-cream-50 border border-sage-100 p-4">
@@ -129,7 +130,7 @@ export function AiAnalyzerPage() {
               </div>
             ) : !insights ? (
               <div className="text-center py-4">
-                <div className="text-3xl mb-2">📊</div>
+                <BarChart3 className="h-8 w-8 text-sage-400 mx-auto mb-2" />
                 <p className="text-sm text-sage-600">No insights generated yet. Click the button above to analyze your reviews.</p>
               </div>
             ) : (

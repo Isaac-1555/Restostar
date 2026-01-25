@@ -1,5 +1,6 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export function RootLayout() {
   const location = useLocation();
@@ -10,7 +11,7 @@ export function RootLayout() {
       <header className="sticky top-0 z-50 border-b border-sage-200 bg-white/95 backdrop-blur-sm shadow-sm">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-sage-600 hover:text-sage-500 transition-colors">
-            <span className="text-2xl">⭐</span>
+            <img src={logo} alt="Restostar" className="h-8 w-8" />
             Restostar
           </Link>
 

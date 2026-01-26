@@ -76,7 +76,7 @@ export function HomePage() {
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-lime-200 px-4 py-1.5 text-sm font-medium text-sage-700">
             <Rocket className="h-4 w-4 animate-pulse" />
-            Now in Beta — Join Early for Free
+            Now in Beta — Join Early and Get ahead
           </div>
           <h1 className="mb-6 text-4xl font-bold tracking-tight text-sage-700 md:text-5xl lg:text-6xl">
             Turn Every Customer

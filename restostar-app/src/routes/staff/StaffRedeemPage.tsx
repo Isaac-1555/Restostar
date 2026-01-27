@@ -21,10 +21,16 @@ export function StaffRedeemPage() {
     try {
       const result = await redeemCoupon({ couponCode });
 
+      const offerLine =
+        result.offerTitle || result.offerDiscountValue
+          ? `Offer: ${`${result.offerTitle ?? ""}${
+              result.offerTitle && result.offerDiscountValue ? " — " : ""
+            }${result.offerDiscountValue ?? ""}`.trim()}`
+          : null;
+
       const meta = [
         result.restaurantName ? `Restaurant: ${result.restaurantName}` : null,
-        result.offerTitle ? `Offer: ${result.offerTitle}` : null,
-        result.offerDiscountValue ? `Discount: ${result.offerDiscountValue}` : null,
+        offerLine,
       ]
         .filter(Boolean)
         .join(" · ");

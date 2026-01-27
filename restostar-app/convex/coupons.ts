@@ -59,7 +59,7 @@ export const setCoupon = mutation({
     if (!title) throw new Error("Coupon title is required");
 
     const discountValue = args.discountValue.trim();
-    if (!discountValue) throw new Error("Coupon discount is required");
+    if (!discountValue) throw new Error("Coupon reward is required");
 
     const description = args.description?.trim() || undefined;
 

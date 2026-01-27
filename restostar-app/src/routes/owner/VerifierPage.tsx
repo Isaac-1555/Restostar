@@ -164,7 +164,11 @@ export function VerifierPage() {
                 <div className="rounded-lg bg-cream-50 p-3">
                   <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Offer</div>
                   <div className="mt-1 font-medium text-sage-700">
-                    {result.offerTitle ? `${result.offerTitle} - ${result.offerDiscountValue}` : "N/A"}
+                    {result.offerTitle || result.offerDiscountValue
+                      ? `${result.offerTitle ?? ""}${
+                          result.offerTitle && result.offerDiscountValue ? " — " : ""
+                        }${result.offerDiscountValue ?? ""}`.trim()
+                      : "N/A"}
                   </div>
                 </div>
                 <div className="rounded-lg bg-cream-50 p-3">

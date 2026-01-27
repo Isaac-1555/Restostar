@@ -30,7 +30,7 @@ export function OnboardingPage() {
     if (!restaurants || restaurants.length === 0) return null;
 
     const found = selectedCouponsRestaurantId
-      ? restaurants.find((r) => r._id === (selectedCouponsRestaurantId as any))
+      ? restaurants.find((r) => String(r._id) === selectedCouponsRestaurantId)
       : undefined;
 
     return found ?? restaurants[0];
@@ -46,13 +46,13 @@ export function OnboardingPage() {
   const [positiveCoupon, setPositiveCoupon] = useState({
     title: "",
     description: "",
-    discountValue: "",
+    offerValue: "",
     isSingleUse: true,
   });
   const [negativeCoupon, setNegativeCoupon] = useState({
     title: "",
     description: "",
-    discountValue: "",
+    offerValue: "",
     isSingleUse: true,
   });
 
@@ -104,14 +104,14 @@ export function OnboardingPage() {
     setPositiveCoupon({
       title: pos?.title ?? "Thanks for the review!",
       description: pos?.description ?? "",
-      discountValue: pos?.discountValue ?? "10% off",
+      offerValue: pos?.discountValue ?? "Free soft drink",
       isSingleUse: pos?.isSingleUse ?? true,
     });
 
     setNegativeCoupon({
       title: neg?.title ?? "We’re sorry — here’s a coupon",
       description: neg?.description ?? "",
-      discountValue: neg?.discountValue ?? "10% off",
+      offerValue: neg?.discountValue ?? "Free dessert",
       isSingleUse: neg?.isSingleUse ?? true,
     });
   }, [selectedCouponsRestaurant?._id, coupons]);
@@ -160,7 +160,7 @@ export function OnboardingPage() {
         sentimentType,
         title: c.title.trim(),
         description: c.description.trim() || undefined,
-        discountValue: c.discountValue.trim(),
+        discountValue: c.offerValue.trim(),
         isSingleUse: c.isSingleUse,
       });
       setCouponStatus(`Saved ${sentimentType} coupon.`);
@@ -269,7 +269,12 @@ export function OnboardingPage() {
           <select
             className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
             value={emailTone}
-            onChange={(e) => setEmailTone(e.target.value as any)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === "assist" || value === "manual") {
+                setEmailTone(value);
+              }
+            }}
           >
             <option value="assist">AI-assisted suggestions</option>
             <option value="manual">Manual (owner-approved template)</option>
@@ -369,17 +374,21 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Discount</span>
+                <span className="text-xs font-medium text-sage-600">Reward</span>
                 <input
                   className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
-                  value={positiveCoupon.discountValue}
+                  value={positiveCoupon.offerValue}
                   onChange={(e) =>
                     setPositiveCoupon((c) => ({
                       ...c,
-                      discountValue: e.target.value,
+                      offerValue: e.target.value,
                     }))
                   }
+                  placeholder="e.g. Free soft drink"
                 />
+                <p className="text-xs text-sage-500">
+                  What the customer gets when they redeem this coupon in-store.
+                </p>
               </label>
 
               <label className="flex items-center gap-2 text-sm text-sage-700">
@@ -435,17 +444,21 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Discount</span>
+                <span className="text-xs font-medium text-sage-600">Reward</span>
                 <input
                   className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
-                  value={negativeCoupon.discountValue}
+                  value={negativeCoupon.offerValue}
                   onChange={(e) =>
                     setNegativeCoupon((c) => ({
                       ...c,
-                      discountValue: e.target.value,
+                      offerValue: e.target.value,
                     }))
                   }
+                  placeholder="e.g. Free dessert"
                 />
+                <p className="text-xs text-sage-500">
+                  What the customer gets when they redeem this coupon in-store.
+                </p>
               </label>
 
               <label className="flex items-center gap-2 text-sm text-sage-700">

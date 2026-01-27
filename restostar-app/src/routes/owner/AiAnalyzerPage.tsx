@@ -17,7 +17,7 @@ export function AiAnalyzerPage() {
     if (!restaurants || restaurants.length === 0) return null;
 
     const found = selectedRestaurantId
-      ? restaurants.find((r) => r._id === (selectedRestaurantId as any))
+      ? restaurants.find((r) => String(r._id) === selectedRestaurantId)
       : undefined;
 
     return found ?? restaurants[0];

@@ -156,19 +156,29 @@ export const generateInsights = action({
       throw new Error("Unexpected Gemini response");
     }
 
-    let parsed: any;
+    let parsed: unknown;
     try {
       parsed = JSON.parse(content);
     } catch {
       throw new Error("Failed to parse Gemini JSON response");
     }
 
-    const sentimentSummary = String(parsed.sentimentSummary ?? "").trim();
-    const keyComplaints = Array.isArray(parsed.keyComplaints)
-      ? parsed.keyComplaints.map((x: any) => String(x)).slice(0, 5)
+    const parsedObj: Record<string, unknown> =
+      typeof parsed === "object" && parsed !== null
+        ? (parsed as Record<string, unknown>)
+        : {};
+
+    const sentimentSummary =
+      typeof parsedObj.sentimentSummary === "string"
+        ? parsedObj.sentimentSummary.trim()
+        : "";
+
+    const keyComplaints = Array.isArray(parsedObj.keyComplaints)
+      ? parsedObj.keyComplaints.map((x) => String(x)).slice(0, 5)
       : [];
-    const suggestions = Array.isArray(parsed.suggestions)
-      ? parsed.suggestions.map((x: any) => String(x)).slice(0, 5)
+
+    const suggestions = Array.isArray(parsedObj.suggestions)
+      ? parsedObj.suggestions.map((x) => String(x)).slice(0, 5)
       : [];
 
     if (!sentimentSummary) {

@@ -1,6 +1,6 @@
 # Restostar
 
-Restostar is a web app that helps new restaurant owners earn more positive reviews and handle critical feedback in an organized, actionable way.[web:8][web:14]
+Restostar is a web app that helps new restaurant owners earn more positive reviews and handle critical feedback in an organized, actionable way.
 
 It focuses on:
 - Guiding **happy** guests to leave public reviews on major platforms.

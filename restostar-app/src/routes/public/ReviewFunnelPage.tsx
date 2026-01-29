@@ -11,8 +11,10 @@ export function ReviewFunnelPage() {
   const { publicId, slug } = useParams();
 
   const [stars, setStars] = useState<number | null>(null);
+  const [ratingLocked, setRatingLocked] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [email, setEmail] = useState("");
+  const [emailFocused, setEmailFocused] = useState(false);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [alreadyReceivedCoupon, setAlreadyReceivedCoupon] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -117,23 +119,32 @@ export function ReviewFunnelPage() {
             </p>
           )}
 
-          {couponCode && (
+          {email && (
             <div className="pt-2 border-t border-lime-200">
-              <p className="text-xs text-sage-500 mb-1">
-                {alreadyReceivedCoupon ? "Your existing coupon code:" : "Your coupon code:"}
+              <p className="text-xs text-sage-500">
+                {alreadyReceivedCoupon
+                  ? "You've already received a coupon for this restaurant. Check your email!"
+                  : "Your coupon code has been sent to your email."}
               </p>
-              <p className="font-mono font-bold text-sage-700 text-lg">{couponCode}</p>
-              {alreadyReceivedCoupon ? (
-                <p className="text-xs text-sage-500 mt-1">
-                  You've already received a coupon for this restaurant.
-                </p>
-              ) : email ? (
-                <p className="text-xs text-sage-500 mt-1">
-                  We've also sent this to your email.
-                </p>
-              ) : null}
             </div>
           )}
+        </div>
+
+        {/* Restostar Banner */}
+        <div className="mt-6 rounded-lg bg-gradient-to-r from-sage to-sage-600 p-4 text-center shadow-sm">
+          <p className="text-xs text-white/80 mb-1">Powered by</p>
+          <p className="text-lg font-bold text-white">Restostar</p>
+          <p className="text-xs text-white/90 mt-1">
+            Turn every visit into a 5-star review
+          </p>
+          <a
+            href="https://restostar.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-sage hover:bg-lime-50 transition-colors"
+          >
+            Learn More
+          </a>
         </div>
       </div>
     );
@@ -153,12 +164,20 @@ export function ReviewFunnelPage() {
           <button
             key={n}
             type="button"
-            onClick={() => setStars(n)}
+            onClick={() => {
+              if (!ratingLocked) {
+                setStars(n);
+                setRatingLocked(true);
+              }
+            }}
+            disabled={ratingLocked && stars !== n}
             className={
               "h-12 w-12 rounded-lg border text-base font-semibold transition " +
               (stars === n
                 ? "border-sage bg-lime-100 text-sage-700"
-                : "border-sage-200 bg-white text-sage-600 hover:bg-lime-50")
+                : ratingLocked
+                  ? "border-sage-200 bg-gray-100 text-sage-400 cursor-not-allowed opacity-50"
+                  : "border-sage-200 bg-white text-sage-600 hover:bg-lime-50")
             }
             aria-pressed={stars === n}
           >
@@ -181,8 +200,15 @@ export function ReviewFunnelPage() {
             placeholder="Email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setEmailFocused(true)}
+            onBlur={() => setEmailFocused(false)}
             inputMode="email"
           />
+          {emailFocused && (
+            <p className="text-xs text-sage-400 mt-1">
+              We respect your privacy. Your email will only be used to send your coupon and will not be shared with third parties.
+            </p>
+          )}
         </div>
       )}
 
@@ -209,8 +235,15 @@ export function ReviewFunnelPage() {
             placeholder="Email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onFocus={() => setEmailFocused(true)}
+            onBlur={() => setEmailFocused(false)}
             inputMode="email"
           />
+          {emailFocused && (
+            <p className="text-xs text-amber-600 mt-1">
+              We respect your privacy. Your email will only be used to send your coupon and will not be shared with third parties.
+            </p>
+          )}
         </div>
       )}
 
@@ -248,6 +281,23 @@ export function ReviewFunnelPage() {
           No restaurant found for <code className="font-mono bg-cream px-1 rounded">{publicId}/{slug}</code>.
         </p>
       )}
+
+      {/* Restostar Banner */}
+      <div className="mt-6 rounded-lg bg-gradient-to-r from-sage to-sage-600 p-4 text-center shadow-sm">
+        <p className="text-xs text-white/80 mb-1">Powered by</p>
+        <p className="text-lg font-bold text-white">Restostar</p>
+        <p className="text-xs text-white/90 mt-1">
+          Turn every visit into a 5-star review
+        </p>
+        <a
+          href="https://restostar.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-sage hover:bg-lime-50 transition-colors"
+        >
+          Learn More
+        </a>
+      </div>
     </div>
   );
 }

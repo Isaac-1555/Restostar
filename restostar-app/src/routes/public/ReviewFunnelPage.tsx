@@ -15,7 +15,7 @@ export function ReviewFunnelPage() {
   const [feedbackText, setFeedbackText] = useState("");
   const [email, setEmail] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
-  const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [_couponCode, setCouponCode] = useState<string | null>(null);
   const [alreadyReceivedCoupon, setAlreadyReceivedCoupon] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

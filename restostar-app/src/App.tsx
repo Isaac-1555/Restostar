@@ -10,6 +10,7 @@ import { OwnerLayout } from "./routes/owner/OwnerLayout";
 import { DashboardPage } from "./routes/owner/DashboardPage";
 import { OnboardingPage } from "./routes/owner/OnboardingPage";
 import { AiAnalyzerPage } from "./routes/owner/AiAnalyzerPage";
+import { ReviewsPage } from "./routes/owner/ReviewsPage";
 import { VerifierPage } from "./routes/owner/VerifierPage";
 import { StaffRedeemPage } from "./routes/staff/StaffRedeemPage";
 
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardPage /> },
           { path: "onboarding", element: <OnboardingPage /> },
+          { path: "reviews", element: <ReviewsPage /> },
           { path: "ai", element: <AiAnalyzerPage /> },
           { path: "verifier", element: <VerifierPage /> },
         ],

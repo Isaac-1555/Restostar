@@ -11,7 +11,7 @@ export function ReviewFunnelPage() {
   const { publicId, slug } = useParams();
 
   const [stars, setStars] = useState<number | null>(null);
-  const [ratingLocked, setRatingLocked] = useState(false);
+  const [positiveCategories, setPositiveCategories] = useState<string[]>([]);
   const [feedbackText, setFeedbackText] = useState("");
   const [email, setEmail] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
@@ -45,6 +45,7 @@ export function ReviewFunnelPage() {
         publicId,
         slug,
         stars,
+        positiveCategories: positiveCategories.length > 0 ? positiveCategories : undefined,
         email: email.trim() || undefined,
       });
       if (result.alreadyReceivedCoupon) {
@@ -164,20 +165,12 @@ export function ReviewFunnelPage() {
           <button
             key={n}
             type="button"
-            onClick={() => {
-              if (!ratingLocked) {
-                setStars(n);
-                setRatingLocked(true);
-              }
-            }}
-            disabled={ratingLocked && stars !== n}
+            onClick={() => setStars(n)}
             className={
               "h-12 w-12 rounded-lg border text-base font-semibold transition " +
               (stars === n
                 ? "border-sage bg-lime-100 text-sage-700"
-                : ratingLocked
-                  ? "border-sage-200 bg-gray-100 text-sage-400 cursor-not-allowed opacity-50"
-                  : "border-sage-200 bg-white text-sage-600 hover:bg-lime-50")
+                : "border-sage-200 bg-white text-sage-600 hover:bg-lime-50")
             }
             aria-pressed={stars === n}
           >
@@ -192,6 +185,35 @@ export function ReviewFunnelPage() {
           <p className="text-sm text-sage-700 font-medium">
             Awesome! We'd love if you could share your experience on Google.
           </p>
+          <div className="space-y-2">
+            <p className="text-xs text-sage-600 font-medium">What did you like?</p>
+            <div className="flex flex-wrap gap-2">
+              {["Food", "Ambience", "Service", "Value"].map((category) => {
+                const isSelected = positiveCategories.includes(category);
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() => {
+                      setPositiveCategories((prev) =>
+                        isSelected
+                          ? prev.filter((c) => c !== category)
+                          : [...prev, category]
+                      );
+                    }}
+                    className={
+                      "px-3 py-1.5 rounded-full text-xs font-medium transition " +
+                      (isSelected
+                        ? "bg-sage text-white"
+                        : "bg-white border border-sage-200 text-sage-600 hover:bg-lime-100")
+                    }
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <p className="text-xs text-sage-500">
             Want a thank-you coupon? Add your email below (optional).
           </p>

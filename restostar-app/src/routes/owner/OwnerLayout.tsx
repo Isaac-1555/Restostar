@@ -24,6 +24,12 @@ export function OwnerLayout() {
                 Onboarding
               </Link>
               <Link
+                to="/app/reviews"
+                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+              >
+                Reviews
+              </Link>
+              <Link
                 to="/app/ai"
                 className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
               >

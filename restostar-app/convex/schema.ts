@@ -41,6 +41,7 @@ export default defineSchema({
     restaurantId: v.id("restaurants"),
     stars: v.number(),
     feedbackText: v.optional(v.string()),
+    positiveCategories: v.optional(v.array(v.string())),
     isPublic: v.boolean(),
     createdAt: v.number(),
   }).index("by_restaurantId_createdAt", ["restaurantId", "createdAt"]),

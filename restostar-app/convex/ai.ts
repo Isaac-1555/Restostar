@@ -112,7 +112,8 @@ export const generateInsights = action({
       .slice(0, 120)
       .map((r) => {
         const text = (r.feedbackText ?? "").trim();
-        return `${r.stars}★ ${text}`.trim();
+        const cats = r.positiveCategories?.length ? ` [Liked: ${r.positiveCategories.join(", ")}]` : "";
+        return `${r.stars}★${cats} ${text}`.trim();
       })
       .filter((l) => l.length > 0);
 

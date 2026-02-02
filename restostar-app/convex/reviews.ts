@@ -1,3 +1,4 @@
+import { paginationOptsValidator } from "convex/server";
 import { v } from "convex/values";
 
 import { internal } from "./_generated/api";
@@ -11,6 +12,7 @@ export const submitReview = mutation({
     slug: v.string(),
     stars: v.number(),
     feedbackText: v.optional(v.string()),
+    positiveCategories: v.optional(v.array(v.string())),
     email: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -31,6 +33,7 @@ export const submitReview = mutation({
       restaurantId: restaurant._id,
       stars,
       feedbackText: args.feedbackText?.trim() || undefined,
+      positiveCategories: args.positiveCategories,
       isPublic: stars >= 4,
       createdAt: Date.now(),
     });
@@ -155,5 +158,45 @@ export const listReviews = query({
       )
       .order("desc")
       .take(limit);
+  },
+});
+
+/**
+ * Paginated owner query for the Reviews page.
+ * Supports optional `since` timestamp to filter by createdAt >= since.
+ */
+export const listReviewsPaginated = query({
+  args: {
+    restaurantId: v.id("restaurants"),
+    since: v.optional(v.number()),
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    const identity = await requireIdentity(ctx);
+    const clerkUserId = identity.subject;
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerkUserId", (q) => q.eq("clerkUserId", clerkUserId))
+      .unique();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const restaurant = await ctx.db.get(args.restaurantId);
+    if (!restaurant) throw new Error("Restaurant not found");
+    if (restaurant.ownerId !== user._id) throw new Error("Unauthorized");
+
+    // Build the query with optional time filter
+    const q = ctx.db
+      .query("reviews")
+      .withIndex("by_restaurantId_createdAt", (idx) =>
+        args.since !== undefined
+          ? idx.eq("restaurantId", restaurant._id).gte("createdAt", args.since)
+          : idx.eq("restaurantId", restaurant._id)
+      );
+
+    return await q.order("desc").paginate(args.paginationOpts);
   },
 });

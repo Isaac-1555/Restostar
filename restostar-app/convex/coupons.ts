@@ -39,6 +39,7 @@ export const setCoupon = mutation({
     description: v.optional(v.string()),
     discountValue: v.string(),
     isSingleUse: v.boolean(),
+    sendDelayMinutes: v.union(v.literal(0), v.literal(1), v.literal(2), v.literal(5)),
   },
   handler: async (ctx, args) => {
     const identity = await requireIdentity(ctx);
@@ -76,6 +77,7 @@ export const setCoupon = mutation({
         description,
         discountValue,
         isSingleUse: args.isSingleUse,
+        sendDelayMinutes: args.sendDelayMinutes,
       });
       return existing._id;
     }
@@ -87,6 +89,7 @@ export const setCoupon = mutation({
       description,
       discountValue,
       isSingleUse: args.isSingleUse,
+      sendDelayMinutes: args.sendDelayMinutes,
       createdAt: Date.now(),
     });
   },
@@ -230,7 +233,9 @@ export const verifyCouponForOwner = query({
       offerDiscountValue: couponConfig?.discountValue ?? null,
       isRedeemed: customerCoupon.isRedeemed,
       redeemedAt: customerCoupon.redeemedAt ?? null,
-      sentAt: customerCoupon.sentAt,
+      createdAt: customerCoupon.createdAt ?? null,
+      scheduledFor: customerCoupon.scheduledFor ?? null,
+      sentAt: customerCoupon.sentAt ?? null,
       reviewStars: review?.stars ?? null,
     };
   },

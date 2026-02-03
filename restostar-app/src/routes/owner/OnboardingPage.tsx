@@ -43,17 +43,28 @@ export function OnboardingPage() {
       : "skip"
   );
 
+  type SendDelayMinutes = 0 | 1 | 2 | 5;
+
+  const SEND_DELAY_OPTIONS: { value: SendDelayMinutes; label: string }[] = [
+    { value: 0, label: "Immediately" },
+    { value: 1, label: "1 minute" },
+    { value: 2, label: "2 minutes" },
+    { value: 5, label: "5 minutes" },
+  ];
+
   const [positiveCoupon, setPositiveCoupon] = useState({
     title: "",
     description: "",
     offerValue: "",
     isSingleUse: true,
+    sendDelayMinutes: 1 as SendDelayMinutes,
   });
   const [negativeCoupon, setNegativeCoupon] = useState({
     title: "",
     description: "",
     offerValue: "",
     isSingleUse: true,
+    sendDelayMinutes: 1 as SendDelayMinutes,
   });
 
   const [couponStatus, setCouponStatus] = useState<string | null>(null);
@@ -106,6 +117,9 @@ export function OnboardingPage() {
       description: pos?.description ?? "",
       offerValue: pos?.discountValue ?? "Free soft drink",
       isSingleUse: pos?.isSingleUse ?? true,
+      // Backward-compat: if coupon exists but has no delay configured, treat as immediate.
+      // If coupon doesn't exist yet, default to 1 minute.
+      sendDelayMinutes: (pos ? pos.sendDelayMinutes ?? 0 : 1) as SendDelayMinutes,
     });
 
     setNegativeCoupon({
@@ -113,6 +127,7 @@ export function OnboardingPage() {
       description: neg?.description ?? "",
       offerValue: neg?.discountValue ?? "Free dessert",
       isSingleUse: neg?.isSingleUse ?? true,
+      sendDelayMinutes: (neg ? neg.sendDelayMinutes ?? 0 : 1) as SendDelayMinutes,
     });
   }, [selectedCouponsRestaurant?._id, coupons]);
 
@@ -162,6 +177,7 @@ export function OnboardingPage() {
         description: c.description.trim() || undefined,
         discountValue: c.offerValue.trim(),
         isSingleUse: c.isSingleUse,
+        sendDelayMinutes: c.sendDelayMinutes,
       });
       setCouponStatus(`Saved ${sentimentType} coupon.`);
     } catch (e) {
@@ -391,6 +407,32 @@ export function OnboardingPage() {
                 </p>
               </label>
 
+              <label className="grid gap-1">
+                <span className="text-xs font-medium text-sage-600">Email delay</span>
+                <select
+                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  value={positiveCoupon.sendDelayMinutes}
+                  onChange={(e) => {
+                    const n = Number(e.target.value);
+                    if (n === 0 || n === 1 || n === 2 || n === 5) {
+                      setPositiveCoupon((c) => ({
+                        ...c,
+                        sendDelayMinutes: n as SendDelayMinutes,
+                      }));
+                    }
+                  }}
+                >
+                  {SEND_DELAY_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-sage-500">
+                  When the coupon email is sent after the customer submits.
+                </p>
+              </label>
+
               <label className="flex items-center gap-2 text-sm text-sage-700">
                 <input
                   type="checkbox"
@@ -458,6 +500,32 @@ export function OnboardingPage() {
                 />
                 <p className="text-xs text-sage-500">
                   What the customer gets when they redeem this coupon in-store.
+                </p>
+              </label>
+
+              <label className="grid gap-1">
+                <span className="text-xs font-medium text-sage-600">Email delay</span>
+                <select
+                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  value={negativeCoupon.sendDelayMinutes}
+                  onChange={(e) => {
+                    const n = Number(e.target.value);
+                    if (n === 0 || n === 1 || n === 2 || n === 5) {
+                      setNegativeCoupon((c) => ({
+                        ...c,
+                        sendDelayMinutes: n as SendDelayMinutes,
+                      }));
+                    }
+                  }}
+                >
+                  {SEND_DELAY_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-sage-500">
+                  When the coupon email is sent after the customer submits.
                 </p>
               </label>
 

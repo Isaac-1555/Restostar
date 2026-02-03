@@ -10,6 +10,7 @@
 
 import type * as ai from "../ai.js";
 import type * as coupons from "../coupons.js";
+import type * as customerCoupons from "../customerCoupons.js";
 import type * as email from "../email.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_strings from "../lib/strings.js";
@@ -27,6 +28,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   coupons: typeof coupons;
+  customerCoupons: typeof customerCoupons;
   email: typeof email;
   "lib/auth": typeof lib_auth;
   "lib/strings": typeof lib_strings;

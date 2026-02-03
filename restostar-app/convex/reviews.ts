@@ -81,16 +81,6 @@ export const submitReview = mutation({
         throw new Error("Failed to generate coupon code");
       }
 
-      await ctx.db.insert("customerCoupons", {
-        reviewId,
-        restaurantId: restaurant._id,
-        email: normalizedEmail,
-        couponCode,
-        isRedeemed: false,
-        redeemedAt: undefined,
-        sentAt: Date.now(),
-      });
-
       const sentimentType = stars >= 4 ? "positive" : "negative";
       const couponConfig = await ctx.db
         .query("coupons")
@@ -99,10 +89,33 @@ export const submitReview = mutation({
         )
         .unique();
 
+      // Delay rules:
+      // - Existing coupon configs that predate this feature have no sendDelayMinutes => treat as immediate (0).
+      // - If no coupon config exists yet, default to 1 minute.
+      const delayMinutes = couponConfig
+        ? couponConfig.sendDelayMinutes ?? 0
+        : 1;
+
+      const delayMs = delayMinutes * 60 * 1000;
+      const now = Date.now();
+      const scheduledFor = now + delayMs;
+
+      const customerCouponId = await ctx.db.insert("customerCoupons", {
+        reviewId,
+        restaurantId: restaurant._id,
+        email: normalizedEmail,
+        couponCode,
+        isRedeemed: false,
+        redeemedAt: undefined,
+        createdAt: now,
+        scheduledFor,
+      });
+
       // Fire-and-forget email sending.
-      // For negative reviews, use AI-generated sympathetic email
+      // For negative reviews, use AI-generated sympathetic email.
       if (sentimentType === "negative") {
-        await ctx.scheduler.runAfter(0, internal.email.sendNegativeCouponEmail, {
+        await ctx.scheduler.runAfter(delayMs, internal.email.sendNegativeCouponEmail, {
+          customerCouponId,
           to: normalizedEmail,
           restaurantName: restaurant.name,
           couponCode,
@@ -111,7 +124,8 @@ export const submitReview = mutation({
           offerDiscountValue: couponConfig?.discountValue,
         });
       } else {
-        await ctx.scheduler.runAfter(0, internal.email.sendCouponEmail, {
+        await ctx.scheduler.runAfter(delayMs, internal.email.sendCouponEmail, {
+          customerCouponId,
           to: normalizedEmail,
           restaurantName: restaurant.name,
           couponCode,

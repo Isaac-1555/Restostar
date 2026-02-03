@@ -15,7 +15,7 @@ export function ReviewFunnelPage() {
   const [feedbackText, setFeedbackText] = useState("");
   const [email, setEmail] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
-  const [_couponCode, setCouponCode] = useState<string | null>(null);
+  const [, setCouponCode] = useState<string | null>(null);
   const [alreadyReceivedCoupon, setAlreadyReceivedCoupon] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,7 +125,7 @@ export function ReviewFunnelPage() {
               <p className="text-xs text-sage-500">
                 {alreadyReceivedCoupon
                   ? "You've already received a coupon for this restaurant. Check your email!"
-                  : "Your coupon code has been sent to your email."}
+                  : "The coupon will be sent shortly."}
               </p>
             </div>
           )}

@@ -171,12 +171,33 @@ export function VerifierPage() {
                       : "N/A"}
                   </div>
                 </div>
-                <div className="rounded-lg bg-cream-50 p-3">
-                  <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Sent At</div>
-                  <div className="mt-1 font-medium text-sage-700">
-                    {new Date(result.sentAt).toLocaleString()}
+                {result.scheduledFor ? (
+                  <>
+                    <div className="rounded-lg bg-cream-50 p-3">
+                      <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">
+                        Scheduled For
+                      </div>
+                      <div className="mt-1 font-medium text-sage-700">
+                        {new Date(result.scheduledFor).toLocaleString()}
+                      </div>
+                    </div>
+                    <div className="rounded-lg bg-cream-50 p-3">
+                      <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">
+                        Sent At
+                      </div>
+                      <div className="mt-1 font-medium text-sage-700">
+                        {result.sentAt ? new Date(result.sentAt).toLocaleString() : "Not sent yet"}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="rounded-lg bg-cream-50 p-3">
+                    <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Sent At</div>
+                    <div className="mt-1 font-medium text-sage-700">
+                      {result.sentAt ? new Date(result.sentAt).toLocaleString() : "N/A"}
+                    </div>
                   </div>
-                </div>
+                )}
                 {result.isRedeemed && result.redeemedAt && (
                   <div className="rounded-lg bg-amber-50 p-3 border border-amber-200">
                     <div className="text-xs font-medium text-amber-600 uppercase tracking-wide">Redeemed At</div>

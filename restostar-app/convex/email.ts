@@ -3,6 +3,7 @@
 import nodemailer from "nodemailer";
 import { v } from "convex/values";
 
+import { internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 
 async function generateSympatheticMessage(
@@ -65,6 +66,7 @@ async function generateSympatheticMessage(
 
 export const sendCouponEmail = internalAction({
   args: {
+    customerCouponId: v.id("customerCoupons"),
     to: v.string(),
     restaurantName: v.string(),
     couponCode: v.string(),
@@ -73,7 +75,7 @@ export const sendCouponEmail = internalAction({
     offerTitle: v.optional(v.string()),
     offerDiscountValue: v.optional(v.string()),
   },
-  handler: async (_ctx, args) => {
+  handler: async (ctx, args) => {
     const user = process.env.GMAIL_SMTP_USER;
     const pass = process.env.GMAIL_SMTP_APP_PASSWORD;
 
@@ -122,12 +124,18 @@ export const sendCouponEmail = internalAction({
       text: lines.join("\n"),
     });
 
+    await ctx.runMutation(internal.customerCoupons.markCouponEmailSent, {
+      customerCouponId: args.customerCouponId,
+      sentAt: Date.now(),
+    });
+
     return { ok: true };
   },
 });
 
 export const sendNegativeCouponEmail = internalAction({
   args: {
+    customerCouponId: v.id("customerCoupons"),
     to: v.string(),
     restaurantName: v.string(),
     couponCode: v.string(),
@@ -135,7 +143,7 @@ export const sendNegativeCouponEmail = internalAction({
     offerTitle: v.optional(v.string()),
     offerDiscountValue: v.optional(v.string()),
   },
-  handler: async (_ctx, args) => {
+  handler: async (ctx, args) => {
     const user = process.env.GMAIL_SMTP_USER;
     const pass = process.env.GMAIL_SMTP_APP_PASSWORD;
 
@@ -184,6 +192,11 @@ export const sendNegativeCouponEmail = internalAction({
       to: args.to,
       subject,
       text: lines.join("\n"),
+    });
+
+    await ctx.runMutation(internal.customerCoupons.markCouponEmailSent, {
+      customerCouponId: args.customerCouponId,
+      sentAt: Date.now(),
     });
 
     return { ok: true };

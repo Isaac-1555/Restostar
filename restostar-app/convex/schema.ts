@@ -34,6 +34,13 @@ export default defineSchema({
     description: v.optional(v.string()),
     discountValue: v.string(),
     isSingleUse: v.boolean(),
+
+    // How long after the customer submits the flow before sending the coupon email.
+    // Optional for backward compatibility with existing records.
+    sendDelayMinutes: v.optional(
+      v.union(v.literal(0), v.literal(1), v.literal(2), v.literal(5))
+    ),
+
     createdAt: v.number(),
   }).index("by_restaurantId_sentiment", ["restaurantId", "sentimentType"]),
 
@@ -54,7 +61,11 @@ export default defineSchema({
     couponCode: v.string(),
     isRedeemed: v.boolean(),
     redeemedAt: v.optional(v.number()),
-    sentAt: v.number(),
+
+    // Scheduling + delivery timestamps (optional for backward compatibility).
+    createdAt: v.optional(v.number()),
+    scheduledFor: v.optional(v.number()),
+    sentAt: v.optional(v.number()),
   })
     .index("by_couponCode", ["couponCode"])
     .index("by_reviewId", ["reviewId"])

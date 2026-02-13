@@ -15,6 +15,7 @@ function normalizeSlug(input: string) {
 export function OnboardingPage() {
   const restaurants = useQuery(api.restaurants.listMyRestaurants);
   const createRestaurant = useMutation(api.restaurants.createRestaurant);
+  const updateRestaurant = useMutation(api.restaurants.updateRestaurant);
   const setCoupon = useMutation(api.coupons.setCoupon);
 
   const [name, setName] = useState("");
@@ -67,6 +68,9 @@ export function OnboardingPage() {
     sendDelayMinutes: 1 as SendDelayMinutes,
   });
 
+  const [selectedEmailTone, setSelectedEmailTone] = useState<"assist" | "manual">("assist");
+  const [emailToneSaving, setEmailToneSaving] = useState(false);
+
   const [couponStatus, setCouponStatus] = useState<string | null>(null);
   const [couponError, setCouponError] = useState<string | null>(null);
 
@@ -103,6 +107,14 @@ export function OnboardingPage() {
     if (selectedCouponsRestaurantId) return;
     setSelectedCouponsRestaurantId(restaurants[0]._id);
   }, [restaurants, selectedCouponsRestaurantId]);
+
+  // Sync emailTone toggle when selected restaurant changes.
+  useEffect(() => {
+    if (selectedCouponsRestaurant) {
+      setSelectedEmailTone(selectedCouponsRestaurant.emailTone);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCouponsRestaurant?._id, selectedCouponsRestaurant?.emailTone]);
 
   // Load coupon config into local form state when changing restaurant.
   useEffect(() => {
@@ -159,6 +171,33 @@ export function OnboardingPage() {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function handleToggleEmailTone(newTone: "assist" | "manual") {
+    if (!selectedCouponsRestaurant) return;
+
+    setSelectedEmailTone(newTone);
+    setEmailToneSaving(true);
+    setCouponStatus(null);
+    setCouponError(null);
+
+    try {
+      await updateRestaurant({
+        restaurantId: selectedCouponsRestaurant._id,
+        emailTone: newTone,
+      });
+      setCouponStatus(
+        newTone === "assist"
+          ? "Email copy set to AI-assisted."
+          : "Email copy set to generic/default."
+      );
+    } catch (e) {
+      setCouponError(e instanceof Error ? e.message : "Something went wrong");
+      // Revert toggle on error
+      setSelectedEmailTone(selectedCouponsRestaurant.emailTone);
+    } finally {
+      setEmailToneSaving(false);
     }
   }
 
@@ -347,6 +386,41 @@ export function OnboardingPage() {
               ))}
             </select>
           </label>
+
+          {/* Email copy toggle */}
+          <div className="flex items-center justify-between rounded-md border border-sage-200 bg-cream-50 p-3">
+            <div>
+              <div className="text-sm font-medium text-sage-700">Email copy style</div>
+              <p className="text-xs text-sage-500 mt-0.5">
+                {selectedEmailTone === "assist"
+                  ? "Emails are personalized by AI based on each review."
+                  : "Emails use generic templates with basic keyword matching."}
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled={emailToneSaving}
+              onClick={() =>
+                handleToggleEmailTone(
+                  selectedEmailTone === "assist" ? "manual" : "assist"
+                )
+              }
+              className={
+                "relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-sage-300 disabled:opacity-50 " +
+                (selectedEmailTone === "assist" ? "bg-sage" : "bg-sage-200")
+              }
+              role="switch"
+              aria-checked={selectedEmailTone === "assist"}
+              aria-label="Toggle AI-assisted email copy"
+            >
+              <span
+                className={
+                  "pointer-events-none inline-block h-6 w-6 rounded-full bg-white shadow-sm ring-0 transition-transform " +
+                  (selectedEmailTone === "assist" ? "translate-x-5" : "translate-x-0")
+                }
+              />
+            </button>
+          </div>
 
           {couponError && (
             <div className="rounded-md border border-red-200 bg-red-50 p-2 text-sm text-red-900">

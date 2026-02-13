@@ -122,6 +122,7 @@ export const submitReview = mutation({
           customerFeedback: args.feedbackText?.trim() || undefined,
           offerTitle: couponConfig?.title,
           offerDiscountValue: couponConfig?.discountValue,
+          emailTone: restaurant.emailTone,
         });
       } else {
         await ctx.scheduler.runAfter(delayMs, internal.email.sendCouponEmail, {
@@ -133,6 +134,8 @@ export const submitReview = mutation({
           googleMapsUrl: restaurant.googleMapsUrl,
           offerTitle: couponConfig?.title,
           offerDiscountValue: couponConfig?.discountValue,
+          emailTone: restaurant.emailTone,
+          positiveCategories: args.positiveCategories,
         });
       }
     }

@@ -6,29 +6,13 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 
-async function generateSympatheticMessage(
-  restaurantName: string,
-  customerFeedback: string,
-  couponDiscount: string | undefined
-): Promise<string> {
+// ── Shared AI helper ──────────────────────────────────────────────────
+
+async function callGemini(prompt: string): Promise<string | null> {
   const geminiKey = process.env.GEMINI_API_KEY;
   const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
-  if (!geminiKey) {
-    // Fallback if no API key
-    return `We're truly sorry to hear about your experience at ${restaurantName}. Your feedback means a lot to us, and we're committed to making things right.`;
-  }
-
-  const prompt = [
-    "You write short, warm, human-sounding email messages for restaurants.",
-    "Write a sympathetic response to a customer who had a negative experience.",
-    "Keep it brief (2-3 sentences), genuine, and avoid corporate-speak.",
-    "Do NOT include subject line, greeting, or signature - just the body message.",
-    "",
-    `Restaurant: ${restaurantName}`,
-    `Customer's feedback: ${customerFeedback || "(No specific feedback provided)"}`,
-    couponDiscount ? `Coupon being offered: ${couponDiscount}` : "",
-  ].filter(Boolean).join("\n");
+  if (!geminiKey) return null;
 
   try {
     const res = await fetch(
@@ -40,28 +24,128 @@ async function generateSympatheticMessage(
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 150,
+            maxOutputTokens: 1024,
+            // Disable thinking — simple email generation doesn't need it,
+            // and the thinking budget eats into maxOutputTokens.
+            thinkingConfig: { thinkingBudget: 0 },
           },
         }),
       }
     );
-
-    if (!res.ok) {
-      throw new Error(`Gemini error: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`Gemini error: ${res.status}`);
 
     const data = await res.json();
-    const content = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const candidate = data?.candidates?.[0];
+    const content = candidate?.content?.parts?.[0]?.text;
 
-    if (content && typeof content === "string") {
-      return content.trim();
+    // Reject truncated responses (thinking models can exhaust the token budget)
+    if (
+      candidate?.finishReason === "MAX_TOKENS" ||
+      !content ||
+      typeof content !== "string" ||
+      content.trim().length < 20
+    ) {
+      return null;
     }
+
+    return content.trim();
   } catch (e) {
     console.error("Failed to generate AI message:", e);
   }
+  return null;
+}
 
-  // Fallback
+// ── Generic (manual) templates ────────────────────────────────────────
+
+const ALL_CATEGORIES = ["Food", "Ambience", "Service", "Value"];
+
+function buildGenericPositiveMessage(
+  restaurantName: string,
+  positiveCategories: string[] | undefined
+): string {
+  const liked = (positiveCategories ?? []).filter((c) => ALL_CATEGORIES.includes(c));
+  const notLiked = ALL_CATEGORIES.filter((c) => !liked.includes(c));
+
+  if (liked.length === 0) {
+    return `Thanks for visiting ${restaurantName} and for your wonderful review! We're glad you enjoyed your experience.`;
+  }
+
+  const likedStr = liked.join(", ").replace(/, ([^,]+)$/, " and $1").toLowerCase();
+  let msg = `We're thrilled that you enjoyed our ${likedStr}!`;
+
+  if (notLiked.length > 0 && notLiked.length <= 2) {
+    const notStr = notLiked.join(" and ").toLowerCase();
+    msg += ` We'll keep working to make the ${notStr} even better for your next visit.`;
+  }
+
+  return msg;
+}
+
+function buildGenericNegativeMessage(
+  restaurantName: string,
+  customerFeedback: string | undefined
+): string {
+  const fb = (customerFeedback ?? "").toLowerCase();
+
+  if (fb.includes("cold")) {
+    return `We're sorry that your food was cold when you received it at ${restaurantName}. That's not the experience we want for you, and we're taking steps to fix it.`;
+  }
+  if (fb.includes("wait") || fb.includes("slow")) {
+    return `We apologize for the long wait at ${restaurantName}. We understand how frustrating that can be and are working to improve our service speed.`;
+  }
+  if (fb.includes("rude") || fb.includes("unfriendly") || fb.includes("staff")) {
+    return `We're sorry about the service experience at ${restaurantName}. Your feedback has been shared with our team and we're committed to doing better.`;
+  }
+
   return `We're truly sorry to hear about your experience at ${restaurantName}. Your feedback means a lot to us, and we're committed to making things right.`;
+}
+
+// ── AI intro generators ───────────────────────────────────────────────
+
+async function generatePositiveAIMessage(
+  restaurantName: string,
+  positiveCategories: string[] | undefined,
+  couponDiscount: string | undefined
+): Promise<string> {
+  const liked = (positiveCategories ?? []).join(", ") || "(none selected)";
+  const prompt = [
+    "You write short, warm, human-sounding email messages for restaurants.",
+    "Write a grateful response to a customer who left a positive review.",
+    "Reference the specific things they liked. If they didn't select everything, briefly mention the restaurant's commitment to improving the rest.",
+    "Keep it brief (2-3 sentences), genuine, and avoid corporate-speak.",
+    "Do NOT include subject line, greeting, or signature - just the body message.",
+    "",
+    `Restaurant: ${restaurantName}`,
+    `Categories the customer liked: ${liked}`,
+    couponDiscount ? `Thank-you coupon being offered: ${couponDiscount}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const ai = await callGemini(prompt);
+  return ai ?? buildGenericPositiveMessage(restaurantName, positiveCategories);
+}
+
+async function generateNegativeAIMessage(
+  restaurantName: string,
+  customerFeedback: string,
+  couponDiscount: string | undefined
+): Promise<string> {
+  const prompt = [
+    "You write short, warm, human-sounding email messages for restaurants.",
+    "Write a sympathetic response to a customer who had a negative experience.",
+    "Keep it brief (2-3 sentences), genuine, and avoid corporate-speak.",
+    "Do NOT include subject line, greeting, or signature - just the body message.",
+    "",
+    `Restaurant: ${restaurantName}`,
+    `Customer's feedback: ${customerFeedback || "(No specific feedback provided)"}`,
+    couponDiscount ? `Coupon being offered: ${couponDiscount}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const ai = await callGemini(prompt);
+  return ai ?? buildGenericNegativeMessage(restaurantName, customerFeedback);
 }
 
 export const sendCouponEmail = internalAction({
@@ -74,6 +158,8 @@ export const sendCouponEmail = internalAction({
     googleMapsUrl: v.optional(v.string()),
     offerTitle: v.optional(v.string()),
     offerDiscountValue: v.optional(v.string()),
+    emailTone: v.union(v.literal("assist"), v.literal("manual")),
+    positiveCategories: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const user = process.env.GMAIL_SMTP_USER;
@@ -92,6 +178,19 @@ export const sendCouponEmail = internalAction({
       auth: { user, pass },
     });
 
+    // Build personalized intro based on emailTone
+    const introMessage =
+      args.emailTone === "assist"
+        ? await generatePositiveAIMessage(
+            args.restaurantName,
+            args.positiveCategories,
+            args.offerDiscountValue
+          )
+        : buildGenericPositiveMessage(
+            args.restaurantName,
+            args.positiveCategories
+          );
+
     const offerLine =
       args.offerTitle || args.offerDiscountValue
         ? `${args.offerTitle ?? ""}${
@@ -99,22 +198,21 @@ export const sendCouponEmail = internalAction({
           }${args.offerDiscountValue ?? ""}`.trim()
         : null;
 
-    const subject =
-      args.sentimentType === "positive"
-        ? `${args.restaurantName} — thanks for your review!`
-        : `${args.restaurantName} — thanks for your feedback`;
+    const subject = `${args.restaurantName} — thanks for your review!`;
 
     const lines: string[] = [
-      `Thanks for visiting ${args.restaurantName}!`,
+      introMessage,
       "",
       offerLine ? `Offer: ${offerLine}` : "",
       `Coupon code: ${args.couponCode}`,
       "",
-      args.sentimentType === "positive" && args.googleMapsUrl
+      args.googleMapsUrl
         ? `Leave a Google review: ${args.googleMapsUrl}`
         : "",
       "",
       "(Please show this email in-store to redeem.)",
+      "",
+      `— The ${args.restaurantName} team`,
     ].filter(Boolean);
 
     await transporter.sendMail({
@@ -142,6 +240,7 @@ export const sendNegativeCouponEmail = internalAction({
     customerFeedback: v.optional(v.string()),
     offerTitle: v.optional(v.string()),
     offerDiscountValue: v.optional(v.string()),
+    emailTone: v.union(v.literal("assist"), v.literal("manual")),
   },
   handler: async (ctx, args) => {
     const user = process.env.GMAIL_SMTP_USER;
@@ -160,12 +259,18 @@ export const sendNegativeCouponEmail = internalAction({
       auth: { user, pass },
     });
 
-    // Generate AI sympathetic message
-    const aiMessage = await generateSympatheticMessage(
-      args.restaurantName,
-      args.customerFeedback ?? "",
-      args.offerDiscountValue
-    );
+    // Build personalized intro based on emailTone
+    const introMessage =
+      args.emailTone === "assist"
+        ? await generateNegativeAIMessage(
+            args.restaurantName,
+            args.customerFeedback ?? "",
+            args.offerDiscountValue
+          )
+        : buildGenericNegativeMessage(
+            args.restaurantName,
+            args.customerFeedback
+          );
 
     const offerLine =
       args.offerTitle || args.offerDiscountValue
@@ -177,7 +282,7 @@ export const sendNegativeCouponEmail = internalAction({
     const subject = `${args.restaurantName} — we'd love to make it up to you`;
 
     const lines: string[] = [
-      aiMessage,
+      introMessage,
       "",
       offerLine ? `Here's a little something: ${offerLine}` : "",
       `Your coupon code: ${args.couponCode}`,

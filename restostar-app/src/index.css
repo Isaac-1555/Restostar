@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -17,8 +18,20 @@
   }
 }
 
+@layer utilities {
+  .font-display {
+    font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
 @theme inline {
   /* Restostar color palette */
+  --animate-float: float 20s ease-in-out infinite;
   --color-cream: #F1F7EE;
   --color-cream-50: #FAFCF9;
   --color-cream-100: #F1F7EE;
@@ -156,5 +169,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   }
 }

@@ -35,6 +35,33 @@ const proofCards = [
   },
 ];
 
+const ownerBenefits = [
+  {
+    icon: Star,
+    title: "Get more Google reviews",
+    description:
+      "Encourages customers to leave reviews at the right moment, when their experience is fresh.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Address concerns before they go public",
+    description:
+      "Re-routes unhappy guests to private feedback so you can fix issues before they reach Google.",
+  },
+  {
+    icon: BarChart3,
+    title: "See all feedback in one place",
+    description:
+      "Consolidates customer feelings and reviews in one dashboard for easy analysis.",
+  },
+  {
+    icon: Target,
+    title: "Boost your visibility on Google Maps",
+    description:
+      "Better reviews and star ratings mean more visibility since Google Maps is the first thing people use to find local restaurants.",
+  },
+];
+
 const features = [
   {
     icon: QrCode,
@@ -203,6 +230,35 @@ export function HomePage() {
                 </div>
                 <h3 className="mt-5 text-xl font-semibold text-emerald-950">{card.title}</h3>
                 <p className="mt-3 text-base leading-7 text-emerald-900/65">{card.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-stone-50 px-4 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-12 max-w-2xl">
+            <div className="mb-5 inline-flex items-center rounded-full border border-emerald-950/10 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-800">
+              <Sparkles className="h-4 w-4" />
+              Why it works for owners
+            </div>
+            <h2 className="font-display text-3xl tracking-[-0.03em] text-emerald-950 sm:text-4xl">
+              Turn feedback into a competitive advantage
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {ownerBenefits.map((benefit) => (
+              <div
+                key={benefit.title}
+                className="rounded-[2rem] border border-emerald-950/10 bg-white p-7 shadow-sm"
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                  <benefit.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-emerald-950">{benefit.title}</h3>
+                <p className="mt-3 text-base leading-7 text-emerald-900/65">{benefit.description}</p>
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Lottie from "lottie-react";
+import { TrendingUp } from "lucide-react";
 import { QrCode, Star, GitFork, Gift } from "lucide-react";
 
 // Placeholder Lottie data – swap each import for your production animation files
@@ -7,6 +8,7 @@ import scanQrAnim from "../assets/lottie/scan-qr.json";
 import rateAnim from "../assets/lottie/rate.json";
 import routeAnim from "../assets/lottie/route.json";
 import rewardAnim from "../assets/lottie/reward.json";
+import growAnim from "../assets/lottie/grow.json";
 
 const steps = [
   {
@@ -36,6 +38,13 @@ const steps = [
     description: "A one-time offer delivered straight to their inbox",
     icon: Gift,
     animation: rewardAnim,
+  },
+  {
+    key: "grow",
+    label: "Watch your reputation grow",
+    description: "More Google reviews, better star ratings, higher visibility on Google Maps",
+    icon: TrendingUp,
+    animation: growAnim,
   },
 ] as const;
 

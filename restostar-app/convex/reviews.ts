@@ -148,6 +148,7 @@ export const listReviews = query({
   args: {
     restaurantId: v.id("restaurants"),
     limit: v.optional(v.number()),
+    since: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const identity = await requireIdentity(ctx);
@@ -168,13 +169,15 @@ export const listReviews = query({
 
     const limit = Math.max(1, Math.min(200, args.limit ?? 50));
 
-    return await ctx.db
+    const q = ctx.db
       .query("reviews")
-      .withIndex("by_restaurantId_createdAt", (q) =>
-        q.eq("restaurantId", restaurant._id)
-      )
-      .order("desc")
-      .take(limit);
+      .withIndex("by_restaurantId_createdAt", (idx) =>
+        args.since !== undefined
+          ? idx.eq("restaurantId", restaurant._id).gte("createdAt", args.since)
+          : idx.eq("restaurantId", restaurant._id)
+      );
+
+    return await q.order("desc").take(limit);
   },
 });
 

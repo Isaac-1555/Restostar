@@ -24,42 +24,36 @@ export function QrCodeCard({ publicId, slug, restaurantName }: QrCodeCardProps) 
   }, [slug]);
 
   return (
-    <div className="rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
-      <h2 className="text-sm font-semibold text-emerald-950 mb-3">QR Code</h2>
-
-      <div className="flex flex-col items-center gap-4">
+    <div className="rounded-lg border border-emerald-950/10 bg-white p-2 shadow-sm">
+      <div className="flex items-center gap-3">
         <div
           ref={canvasRef}
-          className="rounded-lg border border-emerald-950/5 bg-white p-3"
+          className="rounded-lg border border-emerald-950/5 bg-white p-2 flex-shrink-0"
         >
           <QRCodeCanvas
             value={qrUrl}
-            size={180}
+            size={100}
             bgColor="#ffffff"
             fgColor="#022c22"
             level="M"
-            marginSize={2}
+            marginSize={1}
           />
         </div>
 
-        <div className="text-center space-y-1">
-          <p className="text-xs text-emerald-900/60">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-emerald-900/60 truncate">
             Scan to leave a review for
           </p>
-          <p className="text-sm font-medium text-emerald-950">{restaurantName}</p>
+          <p className="text-sm font-medium text-emerald-950 truncate">{restaurantName}</p>
+          <p className="text-xs text-emerald-900/60 truncate mt-1">{qrUrl}</p>
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="mt-2 h-7 rounded-md bg-emerald-950 px-3 text-xs font-semibold text-white hover:bg-emerald-900 transition-colors"
+          >
+            Download
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={handleDownload}
-          className="h-9 rounded-md bg-emerald-950 px-4 text-sm font-semibold text-white hover:bg-emerald-900 transition-colors"
-        >
-          Download PNG
-        </button>
-
-        <p className="text-xs text-emerald-900/60 text-center break-all max-w-[220px]">
-          {qrUrl}
-        </p>
       </div>
     </div>
   );

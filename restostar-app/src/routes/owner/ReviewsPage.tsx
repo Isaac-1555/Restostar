@@ -86,33 +86,33 @@ export function ReviewsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-sage-700">Reviews</h1>
-        <p className="mt-1 text-sm text-sage-600">
+        <h1 className="text-xl font-semibold text-emerald-950">Reviews</h1>
+        <p className="mt-1 text-sm text-emerald-950">
           All customer reviews for your restaurant.
         </p>
       </div>
 
       {restaurants === undefined ? (
-        <div className="text-sm text-sage-500">Loading…</div>
+        <div className="text-sm text-emerald-900/70">Loading…</div>
       ) : restaurants.length === 0 ? (
-        <div className="rounded-lg border border-sage-200 bg-white p-6 text-center shadow-sm">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime-100 mb-3">
-            <MessageSquare className="h-6 w-6 text-sage-600" />
+        <div className="rounded-lg border border-emerald-950/10 bg-white p-6 text-center shadow-sm">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/5 mb-3">
+            <MessageSquare className="h-6 w-6 text-emerald-950" />
           </div>
-          <p className="text-sage-700 font-medium">No restaurants yet</p>
-          <p className="text-sm text-sage-600 mt-1">
+          <p className="text-emerald-950 font-medium">No restaurants yet</p>
+          <p className="text-sm text-emerald-950 mt-1">
             Create a restaurant first to view reviews.
           </p>
         </div>
       ) : (
         <div className="space-y-4">
           {/* Filters */}
-          <div className="rounded-lg border border-sage-200 bg-white p-4 shadow-sm">
+          <div className="rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
             <div className="grid gap-3 md:grid-cols-2">
               <label className="grid gap-1">
-                <span className="text-sm font-medium text-sage-700">Restaurant</span>
+                <span className="text-sm font-medium text-emerald-950">Restaurant</span>
                 <select
-                  className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={selected?._id ?? ""}
                   onChange={(e) => setSelectedRestaurantId(e.target.value)}
                 >
@@ -125,9 +125,9 @@ export function ReviewsPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-sm font-medium text-sage-700">Time range</span>
+                <span className="text-sm font-medium text-emerald-950">Time range</span>
                 <select
-                  className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={timeRange}
                   onChange={(e) => handleTimeRangeChange(e.target.value as TimeRange)}
                 >
@@ -143,35 +143,35 @@ export function ReviewsPage() {
           {/* Two-column layout */}
           <div className="grid gap-4 md:grid-cols-2">
             {/* Left column - Good reviews */}
-            <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+            <div className="rounded-lg border border-emerald-950/10 bg-stone-50 p-4 shadow-sm">
               <div className="flex items-center gap-2 mb-3">
-                <ThumbsUp className="h-5 w-5 text-emerald-600" />
-                <h2 className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">
+                <ThumbsUp className="h-5 w-5 text-emerald-900/70" />
+                <h2 className="text-sm font-semibold text-emerald-950 uppercase tracking-wide">
                   Good Reviews (4-5★)
                 </h2>
               </div>
 
-              <div className="rounded-lg bg-white p-3 border border-emerald-200 mb-3">
-                <div className="text-3xl font-bold text-emerald-600">
+              <div className="rounded-lg bg-white p-3 border border-emerald-950/10 mb-3">
+                <div className="text-3xl font-bold text-emerald-900/70">
                   {goodReviews.length}
                 </div>
-                <div className="text-xs text-emerald-700">total good reviews</div>
+                <div className="text-xs text-emerald-950">total good reviews</div>
               </div>
 
               <div className="space-y-2">
-                <div className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">
+                <div className="text-xs font-semibold text-emerald-950 uppercase tracking-wide">
                   What customers liked
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {POSITIVE_CATEGORIES.map((cat) => (
                     <div
                       key={cat}
-                      className="rounded-md bg-white p-2 border border-emerald-200 text-center"
+                      className="rounded-md bg-white p-2 border border-emerald-950/10 text-center"
                     >
-                      <div className="text-lg font-bold text-emerald-600">
+                      <div className="text-lg font-bold text-emerald-900/70">
                         {categoryCounts[cat]}
                       </div>
-                      <div className="text-xs text-emerald-700">{cat}</div>
+                      <div className="text-xs text-emerald-950">{cat}</div>
                     </div>
                   ))}
                 </div>
@@ -237,17 +237,17 @@ export function ReviewsPage() {
               <button
                 type="button"
                 onClick={() => loadMore(50)}
-                className="rounded-lg border border-sage-300 bg-white px-6 py-2 text-sm font-medium text-sage-700 hover:bg-lime-50 transition-colors"
+                className="rounded-lg border border-emerald-300 bg-white px-6 py-2 text-sm font-medium text-emerald-950 hover:bg-stone-50 transition-colors"
               >
                 Load more reviews
               </button>
             </div>
           )}
           {status === "LoadingMore" && (
-            <div className="text-center text-sm text-sage-500">Loading more…</div>
+            <div className="text-center text-sm text-emerald-900/70">Loading more…</div>
           )}
           {status === "LoadingFirstPage" && (
-            <div className="text-center text-sm text-sage-500">Loading reviews…</div>
+            <div className="text-center text-sm text-emerald-900/70">Loading reviews…</div>
           )}
         </div>
       )}

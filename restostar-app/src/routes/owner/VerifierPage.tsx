@@ -54,8 +54,8 @@ export function VerifierPage() {
     switch (result.status) {
       case "valid":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-950/5 px-3 py-1 text-sm font-medium text-emerald-950">
+            <span className="h-2 w-2 rounded-full bg-stone-500" />
             Valid - Ready to Redeem
           </span>
         );
@@ -95,20 +95,20 @@ export function VerifierPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-sage-700">Coupon Verifier</h1>
-        <p className="mt-1 text-sm text-sage-600">
+        <h1 className="text-xl font-semibold text-emerald-950">Coupon Verifier</h1>
+        <p className="mt-1 text-sm text-emerald-950">
           Verify and redeem customer coupons for your restaurant.
         </p>
       </div>
 
       {/* Search Form */}
-      <form onSubmit={handleSearch} className="rounded-lg border border-sage-200 bg-white p-4 shadow-sm">
+      <form onSubmit={handleSearch} className="rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
         <label className="block">
-          <span className="text-sm font-medium text-sage-700">Enter Coupon Code</span>
+          <span className="text-sm font-medium text-emerald-950">Enter Coupon Code</span>
           <div className="mt-2 flex gap-2">
             <input
               type="text"
-              className="h-12 flex-1 rounded-lg border border-sage-200 bg-white px-4 text-lg font-mono uppercase tracking-widest focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+              className="h-12 flex-1 rounded-lg border border-emerald-950/10 bg-white px-4 text-lg font-mono uppercase tracking-widest focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
               placeholder="ABC123"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
@@ -119,7 +119,7 @@ export function VerifierPage() {
             />
             <button
               type="submit"
-              className="h-12 rounded-lg bg-sage px-6 text-sm font-semibold text-white transition-colors hover:bg-sage-500 disabled:opacity-50"
+              className="h-12 rounded-lg bg-emerald-950 px-6 text-sm font-semibold text-white transition-colors hover:bg-emerald-950-500 disabled:opacity-50"
               disabled={!couponCode.trim()}
             >
               Verify
@@ -130,40 +130,40 @@ export function VerifierPage() {
 
       {/* Results */}
       {searchCode && (
-        <div className="rounded-lg border border-sage-200 bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-sage-100 bg-cream-50 px-4 py-3">
+        <div className="rounded-lg border border-emerald-950/10 bg-white shadow-sm overflow-hidden">
+          <div className="border-b border-emerald-950/5 bg-stone-50 px-4 py-3">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-lg font-semibold text-sage-700">{searchCode}</span>
+              <span className="font-mono text-lg font-semibold text-emerald-950">{searchCode}</span>
               {getStatusBadge()}
             </div>
           </div>
 
           {result === undefined ? (
             <div className="p-6 text-center">
-              <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-sage border-t-transparent" />
-              <p className="mt-2 text-sm text-sage-600">Verifying coupon...</p>
+              <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-emerald border-t-transparent" />
+              <p className="mt-2 text-sm text-emerald-950">Verifying coupon...</p>
             </div>
           ) : result.status === "valid" || result.status === "already_redeemed" ? (
             <div className="p-4 space-y-4">
               {/* Coupon Details */}
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-lg bg-cream-50 p-3">
-                  <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Restaurant</div>
-                  <div className="mt-1 font-medium text-sage-700">{result.restaurantName}</div>
+                <div className="rounded-lg bg-stone-50 p-3">
+                  <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">Restaurant</div>
+                  <div className="mt-1 font-medium text-emerald-950">{result.restaurantName}</div>
                 </div>
-                <div className="rounded-lg bg-cream-50 p-3">
-                  <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Customer Email</div>
-                  <div className="mt-1 font-medium text-sage-700">{result.customerEmail || "Not provided"}</div>
+                <div className="rounded-lg bg-stone-50 p-3">
+                  <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">Customer Email</div>
+                  <div className="mt-1 font-medium text-emerald-950">{result.customerEmail || "Not provided"}</div>
                 </div>
-                <div className="rounded-lg bg-cream-50 p-3">
-                  <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Review Rating</div>
-                  <div className="mt-1 font-medium text-sage-700">
+                <div className="rounded-lg bg-stone-50 p-3">
+                  <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">Review Rating</div>
+                  <div className="mt-1 font-medium text-emerald-950">
                     {result.reviewStars ? `${result.reviewStars}★ (${result.sentimentType})` : "N/A"}
                   </div>
                 </div>
-                <div className="rounded-lg bg-cream-50 p-3">
-                  <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Offer</div>
-                  <div className="mt-1 font-medium text-sage-700">
+                <div className="rounded-lg bg-stone-50 p-3">
+                  <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">Offer</div>
+                  <div className="mt-1 font-medium text-emerald-950">
                     {result.offerTitle || result.offerDiscountValue
                       ? `${result.offerTitle ?? ""}${
                           result.offerTitle && result.offerDiscountValue ? " — " : ""
@@ -173,27 +173,27 @@ export function VerifierPage() {
                 </div>
                 {result.scheduledFor ? (
                   <>
-                    <div className="rounded-lg bg-cream-50 p-3">
-                      <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">
+                    <div className="rounded-lg bg-stone-50 p-3">
+                      <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">
                         Scheduled For
                       </div>
-                      <div className="mt-1 font-medium text-sage-700">
+                      <div className="mt-1 font-medium text-emerald-950">
                         {new Date(result.scheduledFor).toLocaleString()}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-cream-50 p-3">
-                      <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">
+                    <div className="rounded-lg bg-stone-50 p-3">
+                      <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">
                         Sent At
                       </div>
-                      <div className="mt-1 font-medium text-sage-700">
+                      <div className="mt-1 font-medium text-emerald-950">
                         {result.sentAt ? new Date(result.sentAt).toLocaleString() : "Not sent yet"}
                       </div>
                     </div>
                   </>
                 ) : (
-                  <div className="rounded-lg bg-cream-50 p-3">
-                    <div className="text-xs font-medium text-sage-500 uppercase tracking-wide">Sent At</div>
-                    <div className="mt-1 font-medium text-sage-700">
+                  <div className="rounded-lg bg-stone-50 p-3">
+                    <div className="text-xs font-medium text-emerald-900/70 uppercase tracking-wide">Sent At</div>
+                    <div className="mt-1 font-medium text-emerald-950">
                       {result.sentAt ? new Date(result.sentAt).toLocaleString() : "N/A"}
                     </div>
                   </div>
@@ -210,7 +210,7 @@ export function VerifierPage() {
 
               {/* Success/Error Messages */}
               {redeemSuccess && (
-                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+                <div className="rounded-lg border border-emerald-950/10 bg-stone-50 p-3 text-sm text-emerald-950">
                   ✓ {redeemSuccess}
                 </div>
               )}
@@ -226,7 +226,7 @@ export function VerifierPage() {
                   type="button"
                   onClick={handleRedeem}
                   disabled={isRedeeming}
-                  className="w-full h-12 rounded-lg bg-emerald-600 text-base font-semibold text-white transition-all hover:bg-emerald-500 disabled:opacity-50 shadow-sm hover:shadow-md"
+                  className="w-full h-12 rounded-lg bg-emerald-950 text-base font-semibold text-white transition-all hover:bg-stone-500 disabled:opacity-50 shadow-sm hover:shadow-md"
                 >
                   {isRedeeming ? "Redeeming..." : "✓ Mark as Redeemed"}
                 </button>
@@ -246,10 +246,10 @@ export function VerifierPage() {
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-2xl">
                 ❌
               </div>
-              <p className="mt-3 text-sage-700 font-medium">
+              <p className="mt-3 text-emerald-950 font-medium">
                 {result.message || "Unable to verify coupon"}
               </p>
-              <p className="mt-1 text-sm text-sage-500">
+              <p className="mt-1 text-sm text-emerald-900/70">
                 Please check the code and try again.
               </p>
             </div>
@@ -258,9 +258,9 @@ export function VerifierPage() {
       )}
 
       {/* Help text */}
-      <div className="rounded-lg border border-sage-100 bg-cream-50 p-4">
-        <h3 className="text-sm font-semibold text-sage-700">How it works</h3>
-        <ul className="mt-2 space-y-1 text-sm text-sage-600">
+      <div className="rounded-lg border border-emerald-950/5 bg-stone-50 p-4">
+        <h3 className="text-sm font-semibold text-emerald-950">How it works</h3>
+        <ul className="mt-2 space-y-1 text-sm text-emerald-950">
           <li>• Enter the coupon code your customer received via email</li>
           <li>• Verify the coupon is valid and belongs to your restaurant</li>
           <li>• Click "Mark as Redeemed" to record the redemption</li>

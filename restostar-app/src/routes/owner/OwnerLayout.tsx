@@ -10,34 +10,34 @@ export function OwnerLayout() {
         <EnsureUser />
         <div className="flex flex-col gap-4 md:flex-row md:gap-8">
           <aside className="w-full md:w-56">
-            <nav className="grid gap-1 rounded-lg border border-sage-200 bg-white p-2 text-sm shadow-sm">
+            <nav className="grid gap-1 rounded-lg border border-emerald-950/10 bg-white p-2 text-sm shadow-sm">
               <Link
                 to="/app"
-                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+                className="rounded-md px-3 py-2 font-medium text-emerald-900/75 hover:bg-emerald-950/5 hover:text-emerald-950 transition-colors"
               >
                 Dashboard
               </Link>
               <Link
                 to="/app/onboarding"
-                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+                className="rounded-md px-3 py-2 font-medium text-emerald-900/75 hover:bg-emerald-950/5 hover:text-emerald-950 transition-colors"
               >
                 Onboarding
               </Link>
               <Link
                 to="/app/reviews"
-                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+                className="rounded-md px-3 py-2 font-medium text-emerald-900/75 hover:bg-emerald-950/5 hover:text-emerald-950 transition-colors"
               >
                 Reviews
               </Link>
               <Link
                 to="/app/ai"
-                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+                className="rounded-md px-3 py-2 font-medium text-emerald-900/75 hover:bg-emerald-950/5 hover:text-emerald-950 transition-colors"
               >
                 AI Analyzer
               </Link>
               <Link
                 to="/app/verifier"
-                className="rounded-md px-3 py-2 font-medium text-sage-700 hover:bg-lime-100 transition-colors"
+                className="rounded-md px-3 py-2 font-medium text-emerald-900/75 hover:bg-emerald-950/5 hover:text-emerald-950 transition-colors"
               >
                 Verifier
               </Link>

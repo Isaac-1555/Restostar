@@ -57,21 +57,21 @@ export function StaffRedeemPage() {
 
   return (
     <div className="mx-auto max-w-md space-y-4">
-      <div className="rounded-xl border border-sage-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-emerald-950/10 bg-white p-6 shadow-sm">
         <div className="mb-4 text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-lime-100 text-2xl mb-3">
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-950/5 text-2xl mb-3">
             🎫
           </div>
-          <h1 className="text-xl font-semibold text-sage-700">Staff Coupon Redemption</h1>
-          <p className="mt-1 text-sm text-sage-600">
+          <h1 className="text-xl font-semibold text-emerald-950">Staff Coupon Redemption</h1>
+          <p className="mt-1 text-sm text-emerald-900/70">
             Enter the customer's coupon code to redeem it.
           </p>
         </div>
 
         <label className="block">
-          <span className="text-sm font-medium text-sage-700">Coupon Code</span>
+          <span className="text-sm font-medium text-emerald-950">Coupon Code</span>
           <input
-            className="mt-1.5 h-12 w-full rounded-lg border border-sage-200 bg-white px-4 text-lg font-mono uppercase tracking-widest text-center focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="mt-1.5 h-12 w-full rounded-lg border border-emerald-950/10 bg-white px-4 text-lg font-mono uppercase tracking-widest text-center focus:border-emerald-950 focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             placeholder="ABC123"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
@@ -100,7 +100,7 @@ export function StaffRedeemPage() {
 
         <button
           type="button"
-          className="mt-4 h-12 w-full rounded-lg bg-sage text-sm font-semibold text-white hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="mt-4 h-12 w-full rounded-lg bg-emerald-950 text-sm font-semibold text-white hover:bg-emerald-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
           onClick={handleRedeem}
           disabled={isSubmitting || !couponCode.trim()}
         >

@@ -99,30 +99,30 @@ export function ReviewFunnelPage() {
   // Submitted state - show thank you
   if (flowState === "submitted") {
     return (
-      <div className="mx-auto max-w-md space-y-4 rounded-xl bg-white p-6 shadow-md border border-sage-200">
+      <div className="mx-auto max-w-md space-y-4 rounded-xl bg-white p-6 shadow-md border border-emerald-950/10">
         <div className="space-y-1">
-          <div className="text-xs font-medium text-sage-500">
+          <div className="text-xs font-medium text-emerald-900/60">
             {restaurant ? restaurant.name : "Restostar"}
           </div>
-          <h1 className="text-lg font-semibold text-sage-700">
+          <h1 className="text-lg font-semibold text-emerald-950">
             {sentiment === "positive" ? "Thank you!" : "Thanks for your feedback"}
           </h1>
         </div>
 
-        <div className="rounded-lg border border-lime-300 bg-lime-50 p-4 space-y-2">
+        <div className="rounded-lg border border-emerald-950/10 bg-stone-50 p-4 space-y-2">
           {sentiment === "positive" ? (
-            <p className="text-sm text-sage-700">
+            <p className="text-sm text-emerald-950">
               We really appreciate you taking the time to review us on Google!
             </p>
           ) : (
-            <p className="text-sm text-sage-700">
+            <p className="text-sm text-emerald-950">
               We're sorry about your experience. Your feedback helps us improve.
             </p>
           )}
 
           {email && (
-            <div className="pt-2 border-t border-lime-200">
-              <p className="text-xs text-sage-500">
+            <div className="pt-2 border-t border-emerald-950/5">
+              <p className="text-xs text-emerald-900/60">
                 {alreadyReceivedCoupon
                   ? "You've already received a coupon for this restaurant. Check your email!"
                   : "The coupon will be sent shortly."}
@@ -132,7 +132,7 @@ export function ReviewFunnelPage() {
         </div>
 
         {/* Restostar Banner */}
-        <div className="mt-6 rounded-lg bg-gradient-to-r from-sage to-sage-600 p-4 text-center shadow-sm">
+        <div className="mt-6 rounded-lg bg-gradient-to-r from-emerald-950 to-emerald-900 p-4 text-center shadow-sm">
           <p className="text-xs text-white/80 mb-1">Powered by</p>
           <p className="text-lg font-bold text-white">Restostar</p>
           <p className="text-xs text-white/90 mt-1">
@@ -142,7 +142,7 @@ export function ReviewFunnelPage() {
             href="https://restostar.ai"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-sage hover:bg-lime-50 transition-colors"
+            className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-emerald-950 hover:bg-stone-50 transition-colors"
           >
             Learn More
           </a>
@@ -152,12 +152,12 @@ export function ReviewFunnelPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md space-y-4 rounded-xl bg-white p-6 shadow-md border border-sage-200">
+    <div className="mx-auto max-w-md space-y-4 rounded-xl bg-white p-6 shadow-md border border-emerald-950/10">
       <div className="space-y-1">
-        <div className="text-xs font-medium text-sage-500">
+        <div className="text-xs font-medium text-emerald-900/60">
           {restaurant ? restaurant.name : "Restostar"}
         </div>
-        <h1 className="text-lg font-semibold text-sage-700">How was your experience?</h1>
+        <h1 className="text-lg font-semibold text-emerald-950">How was your experience?</h1>
       </div>
 
       <div className="flex items-center justify-between gap-2">
@@ -169,8 +169,8 @@ export function ReviewFunnelPage() {
             className={
               "h-12 w-12 rounded-lg border text-base font-semibold transition " +
               (stars === n
-                ? "border-sage bg-lime-100 text-sage-700"
-                : "border-sage-200 bg-white text-sage-600 hover:bg-lime-50")
+                ? "border-emerald-950 bg-emerald-950/5 text-emerald-950"
+                : "border-emerald-950/10 bg-white text-emerald-900/70 hover:bg-stone-50")
             }
             aria-pressed={stars === n}
           >
@@ -181,12 +181,12 @@ export function ReviewFunnelPage() {
 
       {/* Positive flow (4-5 stars) */}
       {sentiment === "positive" && (
-        <div className="space-y-3 rounded-lg border border-lime-300 bg-lime-50 p-4">
-          <p className="text-sm text-sage-700 font-medium">
+        <div className="space-y-3 rounded-lg border border-emerald-950/10 bg-stone-50 p-4">
+          <p className="text-sm text-emerald-950 font-medium">
             Awesome! We'd love if you could share your experience on Google.
           </p>
           <div className="space-y-2">
-            <p className="text-xs text-sage-600 font-medium">What did you like?</p>
+            <p className="text-xs text-emerald-900/70 font-medium">What did you like?</p>
             <div className="flex flex-wrap gap-2">
               {["Food", "Ambience", "Service", "Value"].map((category) => {
                 const isSelected = positiveCategories.includes(category);
@@ -204,8 +204,8 @@ export function ReviewFunnelPage() {
                     className={
                       "px-3 py-1.5 rounded-full text-xs font-medium transition " +
                       (isSelected
-                        ? "bg-sage text-white"
-                        : "bg-white border border-sage-200 text-sage-600 hover:bg-lime-100")
+                        ? "bg-emerald-950 text-white"
+                        : "bg-white border border-emerald-950/10 text-emerald-900/70 hover:bg-emerald-950/5")
                     }
                   >
                     {category}
@@ -214,11 +214,11 @@ export function ReviewFunnelPage() {
               })}
             </div>
           </div>
-          <p className="text-xs text-sage-500">
+          <p className="text-xs text-emerald-900/60">
             Want a thank-you coupon? Add your email below (optional).
           </p>
           <input
-            className="h-10 w-full rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="h-10 w-full rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald-950 focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             placeholder="Email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -227,7 +227,7 @@ export function ReviewFunnelPage() {
             inputMode="email"
           />
           {emailFocused && (
-            <p className="text-xs text-sage-400 mt-1">
+            <p className="text-xs text-emerald-900/50 mt-1">
               We respect your privacy. Your email will only be used to send your coupon and will not be shared with third parties.
             </p>
           )}
@@ -244,7 +244,7 @@ export function ReviewFunnelPage() {
             Would you share what went wrong? We'd love to make it right.
           </p>
           <textarea
-            className="min-h-28 w-full rounded-md border border-amber-200 bg-white p-2 text-sm text-sage-700 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-200"
+            className="min-h-28 w-full rounded-md border border-amber-200 bg-white p-2 text-sm text-emerald-950 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-200"
             placeholder="Tell us what happened..."
             value={feedbackText}
             onChange={(e) => setFeedbackText(e.target.value)}
@@ -279,7 +279,7 @@ export function ReviewFunnelPage() {
       {sentiment === "positive" && (
         <button
           type="button"
-          className="h-11 w-full rounded-md bg-sage px-4 text-sm font-semibold text-white hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="h-11 w-full rounded-md bg-emerald-950 px-4 text-sm font-semibold text-white hover:bg-emerald-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
           disabled={isSubmitting}
           onClick={handlePositiveSubmit}
         >
@@ -299,13 +299,13 @@ export function ReviewFunnelPage() {
       )}
 
       {!restaurant && publicId && slug && (
-        <p className="text-xs text-sage-500">
+        <p className="text-xs text-emerald-900/60">
           No restaurant found for <code className="font-mono bg-cream px-1 rounded">{publicId}/{slug}</code>.
         </p>
       )}
 
       {/* Restostar Banner */}
-      <div className="mt-6 rounded-lg bg-gradient-to-r from-sage to-sage-600 p-4 text-center shadow-sm">
+      <div className="mt-6 rounded-lg bg-gradient-to-r from-emerald-950 to-emerald-900 p-4 text-center shadow-sm">
         <p className="text-xs text-white/80 mb-1">Powered by</p>
         <p className="text-lg font-bold text-white">Restostar</p>
         <p className="text-xs text-white/90 mt-1">
@@ -315,7 +315,7 @@ export function ReviewFunnelPage() {
           href="https://restostar.ai"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-sage hover:bg-lime-50 transition-colors"
+          className="mt-3 inline-block rounded-md bg-white px-4 py-2 text-xs font-semibold text-emerald-950 hover:bg-stone-50 transition-colors"
         >
           Learn More
         </a>

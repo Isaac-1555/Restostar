@@ -53,29 +53,29 @@ export function AiAnalyzerPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-sage-700">AI Analyzer</h1>
-        <p className="mt-1 text-sm text-sage-600">
+        <h1 className="text-xl font-semibold text-emerald-950">AI Analyzer</h1>
+        <p className="mt-1 text-sm text-emerald-950">
           On-demand insights generated from private feedback and ratings.
         </p>
       </div>
 
       {restaurants === undefined ? (
-        <div className="text-sm text-sage-500">Loading…</div>
+        <div className="text-sm text-emerald-900/70">Loading…</div>
       ) : restaurants.length === 0 ? (
-        <div className="rounded-lg border border-sage-200 bg-white p-6 text-center shadow-sm">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-lime-100 mb-3">
-            <Bot className="h-6 w-6 text-sage-600" />
+        <div className="rounded-lg border border-emerald-950/10 bg-white p-6 text-center shadow-sm">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/5 mb-3">
+            <Bot className="h-6 w-6 text-emerald-950" />
           </div>
-          <p className="text-sage-700 font-medium">No restaurants yet</p>
-          <p className="text-sm text-sage-600 mt-1">Create a restaurant first to start analyzing feedback.</p>
+          <p className="text-emerald-950 font-medium">No restaurants yet</p>
+          <p className="text-sm text-emerald-950 mt-1">Create a restaurant first to start analyzing feedback.</p>
         </div>
       ) : (
-        <div className="space-y-4 rounded-lg border border-sage-200 bg-white p-4 shadow-sm">
+        <div className="space-y-4 rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
           <div className="grid gap-3 md:grid-cols-2">
             <label className="grid gap-1">
-              <span className="text-sm font-medium text-sage-700">Restaurant</span>
+              <span className="text-sm font-medium text-emerald-950">Restaurant</span>
               <select
-                className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                 value={selected?._id ?? ""}
                 onChange={(e) => setSelectedRestaurantId(e.target.value)}
               >
@@ -88,9 +88,9 @@ export function AiAnalyzerPage() {
             </label>
 
             <label className="grid gap-1">
-              <span className="text-sm font-medium text-sage-700">Time range</span>
+              <span className="text-sm font-medium text-emerald-950">Time range</span>
               <select
-                className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value as TimeRange)}
               >
@@ -108,36 +108,36 @@ export function AiAnalyzerPage() {
           )}
 
           {status && (
-            <div className="rounded-lg border border-sage-300 bg-lime-100 p-3 text-sm text-sage-700">
+            <div className="rounded-lg border border-emerald-300 bg-emerald-950/5 p-3 text-sm text-emerald-950">
               ✓ {status}
             </div>
           )}
 
           <button
             type="button"
-            className="h-11 w-full rounded-lg bg-sage px-4 text-sm font-semibold text-white hover:bg-sage-500 disabled:opacity-50 transition-colors shadow-sm"
+            className="h-11 w-full rounded-lg bg-emerald-950 px-4 text-sm font-semibold text-white hover:bg-emerald-950-500 disabled:opacity-50 transition-colors shadow-sm"
             onClick={handleGenerate}
             disabled={isGenerating}
           >
             {isGenerating ? "Generating…" : <><Bot className="inline h-4 w-4 mr-1" /> Generate Insights</>}
           </button>
 
-          <div className="rounded-lg bg-cream-50 border border-sage-100 p-4">
+          <div className="rounded-lg bg-stone-50 border border-emerald-950/5 p-4">
             {insights === undefined ? (
               <div className="flex items-center justify-center py-4">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-sage border-t-transparent" />
-                <span className="ml-2 text-sm text-sage-600">Loading insights...</span>
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald border-t-transparent" />
+                <span className="ml-2 text-sm text-emerald-950">Loading insights...</span>
               </div>
             ) : !insights ? (
               <div className="text-center py-4">
-                <BarChart3 className="h-8 w-8 text-sage-400 mx-auto mb-2" />
-                <p className="text-sm text-sage-600">No insights generated yet. Click the button above to analyze your reviews.</p>
+                <BarChart3 className="h-8 w-8 text-emerald-900/60 mx-auto mb-2" />
+                <p className="text-sm text-emerald-950">No insights generated yet. Click the button above to analyze your reviews.</p>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="rounded-lg bg-white p-3 border border-sage-200">
-                  <div className="text-xs font-semibold text-sage-500 uppercase tracking-wide">Summary</div>
-                  <div className="mt-1 text-sage-700">{insights.sentimentSummary}</div>
+                <div className="rounded-lg bg-white p-3 border border-emerald-950/10">
+                  <div className="text-xs font-semibold text-emerald-900/70 uppercase tracking-wide">Summary</div>
+                  <div className="mt-1 text-emerald-950">{insights.sentimentSummary}</div>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -155,22 +155,22 @@ export function AiAnalyzerPage() {
                     </ul>
                   </div>
 
-                  <div className="rounded-lg bg-emerald-50 p-3 border border-emerald-200">
-                    <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">Suggestions</div>
+                  <div className="rounded-lg bg-stone-50 p-3 border border-emerald-950/10">
+                    <div className="text-xs font-semibold text-emerald-900/70 uppercase tracking-wide">Suggestions</div>
                     <ul className="mt-2 space-y-1">
                       {insights.suggestions.length > 0 ? insights.suggestions.map((s) => (
-                        <li key={s} className="flex items-start gap-2 text-sm text-emerald-700">
+                        <li key={s} className="flex items-start gap-2 text-sm text-emerald-950">
                           <span className="text-emerald-400">•</span>
                           {s}
                         </li>
                       )) : (
-                        <li className="text-sm text-emerald-600 opacity-75">No suggestions yet</li>
+                        <li className="text-sm text-emerald-900/70 opacity-75">No suggestions yet</li>
                       )}
                     </ul>
                   </div>
                 </div>
 
-                <div className="text-xs text-sage-500 text-center">
+                <div className="text-xs text-emerald-900/70 text-center">
                   Last generated: {new Date(insights.generatedAt).toLocaleString()}
                 </div>
               </div>

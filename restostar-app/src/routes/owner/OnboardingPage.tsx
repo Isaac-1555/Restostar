@@ -245,13 +245,13 @@ export function OnboardingPage() {
 
       {/* Add a restaurant - moved to top for better UX */}
       <form
-        className="space-y-4 rounded-lg border-2 border-sage-300 bg-white p-5 shadow-sm"
+        className="space-y-4 rounded-lg border-2 border-emerald-300 bg-white p-5 shadow-sm"
         onSubmit={(e) => {
           e.preventDefault();
           handleCreate();
         }}
       >
-        <h2 className="text-base font-semibold text-sage-700">Add a restaurant</h2>
+        <h2 className="text-base font-semibold text-emerald-950">Add a restaurant</h2>
 
         {error && (
           <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-900">
@@ -260,15 +260,15 @@ export function OnboardingPage() {
         )}
 
         {status && (
-          <div className="rounded-md border border-sage-300 bg-lime-100 p-3 text-sm text-sage-700">
+          <div className="rounded-md border border-emerald-300 bg-emerald-950/5 p-3 text-sm text-emerald-950">
             {status}
           </div>
         )}
 
         <label className="grid gap-1">
-          <span className="text-sm font-medium text-sage-700">Restaurant name</span>
+          <span className="text-sm font-medium text-emerald-950">Restaurant name</span>
           <input
-            className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Sunny Cafe"
@@ -277,9 +277,9 @@ export function OnboardingPage() {
         </label>
 
         <label className="grid gap-1">
-          <span className="text-sm font-medium text-sage-700">Slug</span>
+          <span className="text-sm font-medium text-emerald-950">Slug</span>
           <input
-            className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             placeholder="e.g. sunny-cafe"
@@ -291,7 +291,7 @@ export function OnboardingPage() {
                 <button
                   key={s}
                   type="button"
-                  className="rounded-full border border-sage-200 bg-lime-50 px-2.5 py-0.5 text-xs text-sage-700 hover:bg-lime-200 transition-colors"
+                  className="rounded-full border border-emerald-950/10 bg-stone-50 px-2.5 py-0.5 text-xs text-emerald-950 hover:bg-emerald-950/10 transition-colors"
                   onClick={() => setSlug(s)}
                 >
                   {s}
@@ -299,30 +299,30 @@ export function OnboardingPage() {
               ))}
             </div>
           )}
-          <p className="text-xs text-sage-500">
+          <p className="text-xs text-emerald-900/70">
             Used in your QR link. Unique per owner.
           </p>
         </label>
 
         <label className="grid gap-1">
-          <span className="text-sm font-medium text-sage-700">Google Maps review URL</span>
+          <span className="text-sm font-medium text-emerald-950">Google Maps review URL</span>
           <input
-            className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             value={googleMapsUrl}
             onChange={(e) => setGoogleMapsUrl(e.target.value)}
             onBlur={handleGoogleMapsUrlBlur}
             placeholder="https://maps.google.com/..."
             required
           />
-          <p className="text-xs text-sage-500">
+          <p className="text-xs text-emerald-900/70">
             Customers will be redirected here after positive reviews.
           </p>
         </label>
 
         <label className="grid gap-1">
-          <span className="text-sm font-medium text-sage-700">Email copy preference</span>
+          <span className="text-sm font-medium text-emerald-950">Email copy preference</span>
           <select
-            className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+            className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
             value={emailTone}
             onChange={(e) => {
               const value = e.target.value;
@@ -339,26 +339,26 @@ export function OnboardingPage() {
         <button
           type="submit"
           disabled={isSubmitting || !isFormValid}
-          className="w-full h-11 rounded-md bg-sage text-sm font-semibold text-white hover:bg-sage-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          className="w-full h-11 rounded-md bg-emerald-950 text-sm font-semibold text-white hover:bg-emerald-950-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
         >
           {isSubmitting ? "Creating…" : "Create Restaurant"}
         </button>
       </form>
 
       {/* Your restaurants */}
-      <div className="space-y-2 rounded-lg border border-sage-200 bg-white p-4 shadow-sm">
-        <h2 className="text-sm font-semibold text-sage-700">Your restaurants</h2>
+      <div className="space-y-2 rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
+        <h2 className="text-sm font-semibold text-emerald-950">Your restaurants</h2>
 
         {restaurants === undefined ? (
-          <div className="text-sm text-sage-500">Loading…</div>
+          <div className="text-sm text-emerald-900/70">Loading…</div>
         ) : restaurants.length === 0 ? (
-          <div className="text-sm text-sage-500">No restaurants yet. Create one above!</div>
+          <div className="text-sm text-emerald-900/70">No restaurants yet. Create one above!</div>
         ) : (
           <ul className="space-y-2 text-sm">
             {restaurants.map((r) => (
-              <li key={r._id} className="flex flex-wrap items-center gap-2 p-2 rounded-md bg-lime-50 border border-lime-200">
-                <span className="font-medium text-sage-700">{r.name}</span>
-                <code className="text-xs text-sage-600 bg-white px-1.5 py-0.5 rounded border border-sage-200">
+              <li key={r._id} className="flex flex-wrap items-center gap-2 p-2 rounded-md bg-stone-50 border border-emerald-950/10">
+                <span className="font-medium text-emerald-950">{r.name}</span>
+                <code className="text-xs text-emerald-950 bg-white px-1.5 py-0.5 rounded border border-emerald-950/10">
                   /r/{r.publicId}/{r.slug}
                 </code>
               </li>
@@ -369,13 +369,13 @@ export function OnboardingPage() {
 
       {/* Coupon setup - only shown when restaurants exist */}
       {restaurants && restaurants.length > 0 && (
-        <div className="space-y-3 rounded-lg border border-sage-200 bg-white p-4 shadow-sm">
-          <h2 className="text-sm font-semibold text-sage-700">Coupon setup</h2>
+        <div className="space-y-3 rounded-lg border border-emerald-950/10 bg-white p-4 shadow-sm">
+          <h2 className="text-sm font-semibold text-emerald-950">Coupon setup</h2>
 
           <label className="grid gap-1">
-            <span className="text-sm font-medium text-sage-700">Restaurant</span>
+            <span className="text-sm font-medium text-emerald-950">Restaurant</span>
             <select
-              className="h-10 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+              className="h-10 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
               value={selectedCouponsRestaurant?._id ?? ""}
               onChange={(e) => setSelectedCouponsRestaurantId(e.target.value)}
             >
@@ -388,10 +388,10 @@ export function OnboardingPage() {
           </label>
 
           {/* Email copy toggle */}
-          <div className="flex items-center justify-between rounded-md border border-sage-200 bg-cream-50 p-3">
+          <div className="flex items-center justify-between rounded-md border border-emerald-950/10 bg-stone-50 p-3">
             <div>
-              <div className="text-sm font-medium text-sage-700">Email copy style</div>
-              <p className="text-xs text-sage-500 mt-0.5">
+              <div className="text-sm font-medium text-emerald-950">Email copy style</div>
+              <p className="text-xs text-emerald-900/70 mt-0.5">
                 {selectedEmailTone === "assist"
                   ? "Emails are personalized by AI based on each review."
                   : "Emails use generic templates with basic keyword matching."}
@@ -406,8 +406,8 @@ export function OnboardingPage() {
                 )
               }
               className={
-                "relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-sage-300 disabled:opacity-50 " +
-                (selectedEmailTone === "assist" ? "bg-sage" : "bg-sage-200")
+                "relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-950/20 disabled:opacity-50 " +
+                (selectedEmailTone === "assist" ? "bg-emerald-950" : "bg-emerald-950-200")
               }
               role="switch"
               aria-checked={selectedEmailTone === "assist"}
@@ -429,19 +429,19 @@ export function OnboardingPage() {
           )}
 
           {couponStatus && (
-            <div className="rounded-md border border-sage-300 bg-lime-100 p-2 text-sm text-sage-700">
+            <div className="rounded-md border border-emerald-300 bg-emerald-950/5 p-2 text-sm text-emerald-950">
               {couponStatus}
             </div>
           )}
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2 rounded-md border border-sage-200 bg-cream-50 p-3">
-              <div className="text-sm font-semibold text-sage-700">Positive (4–5★)</div>
+            <div className="space-y-2 rounded-md border border-emerald-950/10 bg-stone-50 p-3">
+              <div className="text-sm font-semibold text-emerald-950">Positive (4–5★)</div>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Title</span>
+                <span className="text-xs font-medium text-emerald-950">Title</span>
                 <input
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={positiveCoupon.title}
                   onChange={(e) =>
                     setPositiveCoupon((c) => ({ ...c, title: e.target.value }))
@@ -450,9 +450,9 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Description</span>
+                <span className="text-xs font-medium text-emerald-950">Description</span>
                 <textarea
-                  className="min-h-16 rounded-md border border-sage-200 bg-white p-2 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="min-h-16 rounded-md border border-emerald-950/10 bg-white p-2 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={positiveCoupon.description}
                   onChange={(e) =>
                     setPositiveCoupon((c) => ({
@@ -464,9 +464,9 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Reward</span>
+                <span className="text-xs font-medium text-emerald-950">Reward</span>
                 <input
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={positiveCoupon.offerValue}
                   onChange={(e) =>
                     setPositiveCoupon((c) => ({
@@ -476,15 +476,15 @@ export function OnboardingPage() {
                   }
                   placeholder="e.g. Free soft drink"
                 />
-                <p className="text-xs text-sage-500">
+                <p className="text-xs text-emerald-900/70">
                   What the customer gets when they redeem this coupon in-store.
                 </p>
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Email delay</span>
+                <span className="text-xs font-medium text-emerald-950">Email delay</span>
                 <select
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={positiveCoupon.sendDelayMinutes}
                   onChange={(e) => {
                     const n = Number(e.target.value);
@@ -502,15 +502,15 @@ export function OnboardingPage() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs text-sage-500">
+                <p className="text-xs text-emerald-900/70">
                   When the coupon email is sent after the customer submits.
                 </p>
               </label>
 
-              <label className="flex items-center gap-2 text-sm text-sage-700">
+              <label className="flex items-center gap-2 text-sm text-emerald-950">
                 <input
                   type="checkbox"
-                  className="accent-sage"
+                  className="accent-emerald"
                   checked={positiveCoupon.isSingleUse}
                   onChange={(e) =>
                     setPositiveCoupon((c) => ({
@@ -524,20 +524,20 @@ export function OnboardingPage() {
 
               <button
                 type="button"
-                className="h-9 rounded-md bg-sage px-4 text-sm font-semibold text-white hover:bg-sage-500 transition-colors"
+                className="h-9 rounded-md bg-emerald-950 px-4 text-sm font-semibold text-white hover:bg-emerald-950-500 transition-colors"
                 onClick={() => handleSaveCoupon("positive")}
               >
                 Save
               </button>
             </div>
 
-            <div className="space-y-2 rounded-md border border-sage-200 bg-cream-50 p-3">
-              <div className="text-sm font-semibold text-sage-700">Negative (≤3★)</div>
+            <div className="space-y-2 rounded-md border border-emerald-950/10 bg-stone-50 p-3">
+              <div className="text-sm font-semibold text-emerald-950">Negative (≤3★)</div>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Title</span>
+                <span className="text-xs font-medium text-emerald-950">Title</span>
                 <input
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={negativeCoupon.title}
                   onChange={(e) =>
                     setNegativeCoupon((c) => ({ ...c, title: e.target.value }))
@@ -546,9 +546,9 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Description</span>
+                <span className="text-xs font-medium text-emerald-950">Description</span>
                 <textarea
-                  className="min-h-16 rounded-md border border-sage-200 bg-white p-2 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="min-h-16 rounded-md border border-emerald-950/10 bg-white p-2 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={negativeCoupon.description}
                   onChange={(e) =>
                     setNegativeCoupon((c) => ({
@@ -560,9 +560,9 @@ export function OnboardingPage() {
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Reward</span>
+                <span className="text-xs font-medium text-emerald-950">Reward</span>
                 <input
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={negativeCoupon.offerValue}
                   onChange={(e) =>
                     setNegativeCoupon((c) => ({
@@ -572,15 +572,15 @@ export function OnboardingPage() {
                   }
                   placeholder="e.g. Free dessert"
                 />
-                <p className="text-xs text-sage-500">
+                <p className="text-xs text-emerald-900/70">
                   What the customer gets when they redeem this coupon in-store.
                 </p>
               </label>
 
               <label className="grid gap-1">
-                <span className="text-xs font-medium text-sage-600">Email delay</span>
+                <span className="text-xs font-medium text-emerald-950">Email delay</span>
                 <select
-                  className="h-9 rounded-md border border-sage-200 bg-white px-3 text-sm focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-300"
+                  className="h-9 rounded-md border border-emerald-950/10 bg-white px-3 text-sm focus:border-emerald focus:outline-none focus:ring-2 focus:ring-emerald-950/20"
                   value={negativeCoupon.sendDelayMinutes}
                   onChange={(e) => {
                     const n = Number(e.target.value);
@@ -598,15 +598,15 @@ export function OnboardingPage() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs text-sage-500">
+                <p className="text-xs text-emerald-900/70">
                   When the coupon email is sent after the customer submits.
                 </p>
               </label>
 
-              <label className="flex items-center gap-2 text-sm text-sage-700">
+              <label className="flex items-center gap-2 text-sm text-emerald-950">
                 <input
                   type="checkbox"
-                  className="accent-sage"
+                  className="accent-emerald"
                   checked={negativeCoupon.isSingleUse}
                   onChange={(e) =>
                     setNegativeCoupon((c) => ({
@@ -620,7 +620,7 @@ export function OnboardingPage() {
 
               <button
                 type="button"
-                className="h-9 rounded-md bg-sage px-4 text-sm font-semibold text-white hover:bg-sage-500 transition-colors"
+                className="h-9 rounded-md bg-emerald-950 px-4 text-sm font-semibold text-white hover:bg-emerald-950-500 transition-colors"
                 onClick={() => handleSaveCoupon("negative")}
               >
                 Save
@@ -628,7 +628,7 @@ export function OnboardingPage() {
             </div>
           </div>
 
-          <p className="text-xs text-sage-500">
+          <p className="text-xs text-emerald-900/70">
             Coupons are emailed to customers. Redeem at /staff/redeem.
           </p>
         </div>

@@ -25,28 +25,21 @@ export function DashboardPage() {
 
   const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
 
-  const todayStart = useMemo(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    return now.getTime();
-  }, []);
+  const todayStart = new Date().setHours(0, 0, 0, 0);
 
   const todayReviews = useQuery(
     api.reviews.listReviews,
     selected ? { restaurantId: selected._id, limit: 5, since: todayStart } : "skip"
   );
-
-  const allReviews = useQuery(
-    api.reviews.listReviews,
-    selected ? { restaurantId: selected._id, limit: 5 } : "skip"
+  const recentTodayReviews = useMemo(
+    () => (todayReviews ?? []).filter((r) => r.feedbackText).slice(0, 5),
+    [todayReviews]
   );
 
-  const displayReviews = todayReviews && todayReviews.length > 0 ? todayReviews : allReviews;
-
   const selectedReview = useMemo(() => {
-    if (!selectedReviewId || !displayReviews) return null;
-    return displayReviews.find((r) => r._id === selectedReviewId) ?? null;
-  }, [selectedReviewId, displayReviews]);
+    if (!selectedReviewId) return null;
+    return recentTodayReviews.find((r) => r._id === selectedReviewId) ?? null;
+  }, [selectedReviewId, recentTodayReviews]);
 
   const starCounts = useMemo(() => {
     const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<number, number>;
@@ -143,31 +136,28 @@ export function DashboardPage() {
               </Link>
             </div>
             <div className="mt-2 space-y-2">
-              {displayReviews === undefined ? (
+              {todayReviews === undefined ? (
                 <p className="text-sm text-emerald-900/60">Loading…</p>
-              ) : displayReviews.length === 0 ? (
+              ) : recentTodayReviews.length === 0 ? (
                 <p className="text-sm text-emerald-900/60">No reviews today.</p>
               ) : (
-                displayReviews
-                  .filter((r) => r.feedbackText)
-                  .slice(0, 5)
-                  .map((r) => (
-                    <button
-                      key={r._id}
-                      type="button"
-                      onClick={() => setSelectedReviewId(r._id)}
-                      className="w-full text-left rounded-md bg-stone-50 p-2 border border-emerald-950/5 hover:bg-emerald-50 transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className={`text-xs font-medium ${
-                          r.stars >= 4 ? "text-green-700" :
-                          r.stars === 3 ? "text-yellow-700" :
-                          "text-red-700"
-                        }`}>{r.stars}★</span>
-                        <span className="text-sm text-emerald-950 truncate">{r.feedbackText}</span>
-                      </div>
-                    </button>
-                  ))
+                recentTodayReviews.map((r) => (
+                  <button
+                    key={r._id}
+                    type="button"
+                    onClick={() => setSelectedReviewId(r._id)}
+                    className="w-full text-left rounded-md bg-stone-50 p-2 border border-emerald-950/5 hover:bg-emerald-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-medium ${
+                        r.stars >= 4 ? "text-green-700" :
+                        r.stars === 3 ? "text-yellow-700" :
+                        "text-red-700"
+                      }`}>{r.stars}★</span>
+                      <span className="text-sm text-emerald-950 truncate">{r.feedbackText}</span>
+                    </div>
+                  </button>
+                ))
               )}
             </div>
           </div>

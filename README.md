@@ -1,48 +1,37 @@
 # Restostar
 
-Restostar is a web app that helps new restaurant owners earn more positive reviews and handle critical feedback in an organized, actionable way.
-
-It focuses on:
-- Guiding **happy** guests to leave public reviews on major platforms.
-- Capturing **unhappy** guests privately so you can fix issues before they hit your public rating.
+Restostar is a QR-powered guest feedback platform that helps restaurants turn great experiences into 5-star Google reviews while keeping negative feedback private for recovery.
 
 ---
 
 ## Features
 
-- Review funnel:
-  - Simple in-restaurant flow (QR/tablet) that asks guests about their experience.
-  - Happy-path guests are nudged to leave public reviews on sites like Google and TripAdvisor.
-- Critical feedback capture:
-  - If guests report problems, they are routed to a private feedback form (not public review sites).
-  - Owner dashboard to see what went wrong, when, and at which location.
-- Response templates:
-  - Suggested wording for answering negative reviews professionally and consistently.
-- Basic analytics:
-  - Track number of feedback submissions, ratio of happy vs unhappy responses, and public review links followed.
+- **QR Code Reviews**: Table-side feedback entry via QR code for dine-in, takeout, or delivery.
+- **Smart Review Routing**: Happy guests get routed to leave public reviews on Google; unhappy guests are redirected to private feedback.
+- **Automated Coupons**: Reward satisfied guests with trackable one-time offers delivered via email.
+- **AI Insights**: Surface recurring complaints, praise, and improvement themes automatically.
+- **Owner Dashboard**: View star distribution, private feedback, and review analytics in one place.
+- **Coupon Verification**: Staff can easily verify and redeem coupons through the dashboard.
 
 ---
 
 ## How It Works
 
-1. Restaurant staff provide guests with a Restostar link or QR code after the meal.
-2. Guest answers a short “How was everything?” flow.
-3. If the guest is satisfied:
-   - They see links/buttons to your preferred public review platforms.
-4. If the guest is unsatisfied:
-   - They see a short form to describe what went wrong and optionally share contact details.
-   - The feedback is stored internally so the owner or manager can follow up and improve operations.
+1. **Set up once**: Add business details, review links, and offer settings.
+2. **Place QR code**: Use on tables, receipts, takeout packaging, or counter signage.
+3. **Sentiment branching**: Satisfied guests see a public review prompt; unhappy guests share private feedback.
+4. **Act on patterns**: Use dashboard and AI summaries to spot repeat issues and improve operations.
 
 ---
 
 ## Tech Stack
 
-This section is intentionally generic; update it to match the actual stack in the repo.
-
-- Frontend: React or vanilla HTML/CSS/JS
-- Backend: Node.js/Express (or your chosen framework)
-- Database: MongoDB/PostgreSQL/SQLite for storing internal feedback
-- Deployment: Any Node-compatible host (Render, Railway, Heroku, etc.)
+- **Frontend**: React 19 + TypeScript + Vite
+- **Styling**: Tailwind CSS v4
+- **Authentication**: Clerk
+- **Backend/DB**: Convex
+- **Animations**: Lottie React
+- **Icons**: Lucide React
 
 ---
 
@@ -50,59 +39,60 @@ This section is intentionally generic; update it to match the actual stack in th
 
 ### Prerequisites
 
-- Node.js and npm installed.
-- Git installed to clone the repository.
+- Node.js 18+ and npm
+- Git
 
 ### Installation
 
+```bash
 # Clone the repository
 git clone https://github.com/Isaac-1555/Restostar.git
 cd Restostar
 
 # Install dependencies
+cd restostar-app
 npm install
 
 # Start development server
 npm run dev
+```
 
-## Configuration
+### Environment Variables
 
-Create a `.env` file (or equivalent) for:
+Create a `.env.local` file in `restostar-app/` with:
 
-* `PORT` – Port for the web server.
-* `DATABASE_URL` – Connection string for your database.
-* `REVIEW_LINK_GOOGLE` – URL to your Google Business review page.
-* `REVIEW_LINK_TRIPADVISOR` – URL to your TripAdvisor listing.
-* Any email/notification credentials (if you send alerts on new critical feedback).
+- `VITE_CLERK_PUBLISHABLE_KEY` – Clerk authentication key
+- `CONVEX_DEPLOY_KEY` – Convex deployment key
 
-## Usage
+---
 
-* Share the Restostar link or place QR codes on tables, receipts, or near the exit.
-* Check the internal feedback dashboard regularly to:
-   * Spot repeated issues (slow service, cold food, etc.).
-   * Reply to guests who left contact information.
-   * Update staff training or menu items based on patterns.
-* Periodically verify that all external review links (Google, Yelp, TripAdvisor) are still correct.
+## Project Structure
 
-## Roadmap
+```
+restostar-app/
+├── src/
+│   ├── assets/          # SVGs and Lottie animations
+│   ├── components/       # Reusable UI components
+│   │   ├── HeroWorkflowAnimation.tsx
+│   │   └── StarField.tsx
+│   ├── routes/          # Page components
+│   │   ├── HomePage.tsx
+│   │   └── owner/
+│   └── ...
+├── docs/                # Design system, PRD, user flow, DB architecture
+└── ...
+```
 
-Planned or possible enhancements:
-
-* Multi-location support with per-branch analytics.
-* SMS or email follow-up sequences to thank happy guests and recover unhappy ones.
-* Integration with POS or reservation systems.
-* Exportable reports for management meetings.
+---
 
 ## Contributing
 
-Contributions, feature ideas, and bug reports are welcome.
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
 
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Submit a pull request with a clear description of the change.
+---
 
 ## License
 
-Add your chosen license here, for example:
-
-This project is licensed under the MIT License – see the `LICENSE` file for details.
+MIT

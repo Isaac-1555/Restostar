@@ -1,0 +1,171 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Restostar Restostar" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img "Restostar" [ref=e7]
+        - generic [ref=e8]: Restostar
+      - navigation [ref=e194]:
+        - link "Sign In" [ref=e195] [cursor=pointer]:
+          - /url: /sign-in
+        - link "Get Started" [ref=e196] [cursor=pointer]:
+          - /url: /sign-up
+  - main [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - heading "Turn great experiences into 5-star reviews." [level=1] [ref=e14]
+          - paragraph [ref=e15]: Restostar gives restaurants a QR-powered guest feedback flow that routes happy diners to Google, keeps lower ratings private, and closes the loop with trackable recovery offers.
+          - generic [ref=e197]:
+            - link "Start your review funnel" [ref=e198] [cursor=pointer]:
+              - /url: /sign-up
+              - text: Start your review funnel
+              - img [ref=e199]
+            - link "Try the guest demo" [ref=e201] [cursor=pointer]:
+              - /url: /r/demo/demo
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic:
+              - generic:
+                - img
+            - img [ref=e204]
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - img
+          - generic [ref=e22]:
+            - paragraph [ref=e23]: Share how it felt
+            - paragraph [ref=e24]: A quick, friendly star rating in under 10 seconds
+          - generic [ref=e25]:
+            - button "Effortless check-in" [ref=e26]
+            - button "Share how it felt" [ref=e27]
+            - button "Personalized next step" [ref=e28]
+            - button "A thank-you that counts" [ref=e29]
+            - button "Watch your reputation grow" [ref=e30]
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]:
+              - img [ref=e36]
+              - text: Why restaurants choose Restostar
+            - heading "Every review shapes your reputation. Make sure the right ones go public." [level=2] [ref=e40]
+          - paragraph [ref=e41]: Happy guests get a smooth path to leave a Google review while the visit is still fresh. Unhappy guests share feedback privately so your team can act before it becomes a public problem.
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - img [ref=e45]
+            - heading "Guide happy guests to the public review ask" [level=3] [ref=e47]
+            - paragraph [ref=e48]: Catch the moment when a guest is already satisfied, then route them cleanly toward Google instead of hoping they remember later.
+          - generic [ref=e49]:
+            - img [ref=e51]
+            - heading "Keep recovery conversations inside your own flow" [level=3] [ref=e53]
+            - paragraph [ref=e54]: Lower ratings stay private so your team can understand what happened, follow up fast, and protect the public reputation you worked for.
+          - generic [ref=e55]:
+            - img [ref=e57]
+            - heading "Reward guests without losing operational control" [level=3] [ref=e61]
+            - paragraph [ref=e62]: Deliver a one-time coupon by email and verify redemption on the staff side, so incentives feel helpful instead of messy.
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - img [ref=e67]
+            - text: Why it works for owners
+          - heading "Turn feedback into a competitive advantage" [level=2] [ref=e70]
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - img [ref=e74]
+            - heading "Get more Google reviews" [level=3] [ref=e76]
+            - paragraph [ref=e77]: Encourages customers to leave reviews at the right moment, when their experience is fresh.
+          - generic [ref=e78]:
+            - img [ref=e80]
+            - heading "Address concerns before they go public" [level=3] [ref=e82]
+            - paragraph [ref=e83]: Re-routes unhappy guests to private feedback so you can fix issues before they reach Google.
+          - generic [ref=e84]:
+            - img [ref=e86]
+            - heading "See all feedback in one place" [level=3] [ref=e88]
+            - paragraph [ref=e89]: Consolidates customer feelings and reviews in one dashboard for easy analysis.
+          - generic [ref=e90]:
+            - img [ref=e92]
+            - heading "Boost your visibility on Google Maps" [level=3] [ref=e96]
+            - paragraph [ref=e97]: Better reviews and star ratings mean more visibility since Google Maps is the first thing people use to find local restaurants.
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - img [ref=e102]
+            - text: The full loop
+          - heading "One system for the entire guest feedback cycle" [level=2] [ref=e105]
+          - paragraph [ref=e106]: From the QR scan to the owner dashboard, Restostar keeps the flow calm, trackable, and built for real restaurant operations.
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - img [ref=e110]
+            - heading "QR Code Reviews" [level=3] [ref=e116]
+            - paragraph [ref=e117]: Create a table-side review entry point that feels natural in service, takeout, or delivery touchpoints.
+          - generic [ref=e118]:
+            - img [ref=e120]
+            - heading "Smart Review Routing" [level=3] [ref=e122]
+            - paragraph [ref=e123]: Positive guests get the public review prompt. Lower ratings stay in a private recovery channel first.
+          - generic [ref=e124]:
+            - img [ref=e126]
+            - heading "Automated Coupons" [level=3] [ref=e130]
+            - paragraph [ref=e131]: Reward feedback with trackable one-time offers that keep your thank-you flow consistent across every shift.
+          - generic [ref=e132]:
+            - img [ref=e134]
+            - heading "AI Insights" [level=3] [ref=e137]
+            - paragraph [ref=e138]: Surface recurring complaints, guest praise, and improvement themes without reading every comment manually.
+          - generic [ref=e139]:
+            - img [ref=e141]
+            - heading "Owner Dashboard" [level=3] [ref=e143]
+            - paragraph [ref=e144]: See star distribution, private feedback, and review momentum in one owner-friendly view.
+          - generic [ref=e145]:
+            - img [ref=e147]
+            - heading "Coupon Verification" [level=3] [ref=e150]
+            - paragraph [ref=e151]: Give staff a clear redemption flow so every coupon can be checked once and redeemed with confidence.
+      - generic [ref=e153]:
+        - generic [ref=e154]:
+          - generic [ref=e155]: How it works
+          - heading "Built to go live quickly, then get smarter with every shift" [level=2] [ref=e156]
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]: "01"
+            - heading "Set up your restaurant once" [level=3] [ref=e160]
+            - paragraph [ref=e161]: Add your business details, review link, and offer settings so the flow matches how you actually operate.
+          - generic [ref=e162]:
+            - generic [ref=e163]: "02"
+            - heading "Place your QR where feedback happens" [level=3] [ref=e164]
+            - paragraph [ref=e165]: Use one shareable link on tables, receipts, takeout packaging, or counter signage.
+          - generic [ref=e166]:
+            - generic [ref=e167]: "03"
+            - heading "Let the flow branch by sentiment" [level=3] [ref=e168]
+            - paragraph [ref=e169]: Satisfied guests get the review ask. Unhappy guests leave private context so you can recover the experience.
+          - generic [ref=e170]:
+            - generic [ref=e171]: "04"
+            - heading "Act on patterns, not scattered comments" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Use the dashboard and AI summaries to spot repeat issues, improve service, and strengthen your public rating over time.
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - img [ref=e180]
+            - text: Ready to launch
+          - heading "Give guests an easier way to praise you and your team a better way to recover issues." [level=2] [ref=e183]
+          - paragraph [ref=e184]: Restostar helps restaurants collect meaningful feedback at the table, keep the public review ask intentional, and turn comments into improvements your team can actually act on.
+        - generic [ref=e185]:
+          - link "Create your account" [ref=e205] [cursor=pointer]:
+            - /url: /sign-up
+            - text: Create your account
+            - img [ref=e206]
+          - link "View demo flow" [ref=e186] [cursor=pointer]:
+            - /url: /r/demo/demo
+      - generic [ref=e188]:
+        - generic [ref=e189]: © 2026 Restostar. All rights reserved.
+        - generic [ref=e190]:
+          - link "Sign In" [ref=e191] [cursor=pointer]:
+            - /url: /sign-in
+          - link "Sign Up" [ref=e192] [cursor=pointer]:
+            - /url: /sign-up
+          - link "Demo" [ref=e193] [cursor=pointer]:
+            - /url: /r/demo/demo

@@ -13,6 +13,7 @@ import {
   Target,
 } from "lucide-react";
 import { HeroWorkflowAnimation } from "../components/HeroWorkflowAnimation";
+import { StarField } from "../components/StarField";
 
 const proofCards = [
   {
@@ -132,19 +133,7 @@ export function HomePage() {
   return (
     <div className="overflow-hidden bg-stone-50 text-emerald-950">
       <section className="relative isolate overflow-hidden border-b border-emerald-950/5 bg-gradient-to-br from-[#f5f0e8] via-[#eef7f0] to-[#e8f5ec]">
-        {/* Subtle animated background blobs */}
-        <div
-          className="absolute -left-32 -top-16 h-[30rem] w-[30rem] rounded-full bg-emerald-200/30 blur-[120px]"
-          style={{ animation: "float 20s ease-in-out infinite" }}
-        />
-        <div
-          className="absolute -bottom-20 right-0 h-[26rem] w-[26rem] rounded-full bg-lime-200/25 blur-[100px]"
-          style={{ animation: "float 25s ease-in-out infinite reverse" }}
-        />
-        <div
-          className="absolute left-1/3 top-1/4 h-64 w-64 rounded-full bg-emerald-100/30 blur-[80px]"
-          style={{ animation: "float 18s ease-in-out infinite 2s" }}
-        />
+        <StarField />
 
         <div className="relative mx-auto grid min-h-[calc(100svh-73px)] max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-center lg:gap-14 lg:py-20">
           <div className="max-w-2xl">

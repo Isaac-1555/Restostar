@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Lottie from "lottie-react";
 
 function QrIcon({ className = "" }: { className?: string }) {
@@ -90,42 +90,72 @@ const STEP_DURATION_MS = 4000;
 export function HeroWorkflowAnimation() {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(() =>
+    typeof document === "undefined" ? true : document.visibilityState !== "hidden"
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const advance = useCallback(() => {
     setActive((prev) => (prev + 1) % steps.length);
   }, []);
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const handleVisibilityChange = () => {
+      setIsDocumentVisible(document.visibilityState !== "hidden");
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
 
   useEffect(() => {
-    if (isPaused) return;
+    const element = containerRef.current;
+    if (!element || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const shouldAnimate = isInView && isDocumentVisible;
+
+  useEffect(() => {
+    if (isPaused || !shouldAnimate) return;
     const id = setInterval(advance, STEP_DURATION_MS);
     return () => clearInterval(id);
-  }, [advance, isPaused]);
+  }, [advance, isPaused, shouldAnimate]);
 
-  const ActiveIcon = steps[active].icon;
+  const activeStep = steps[active];
+  const ActiveIcon = activeStep.icon;
 
   return (
     <div
+      ref={containerRef}
       className="-mt-4 flex flex-col items-center lg:-mt-6"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Lottie background + large centered icon */}
       <div className="relative flex h-72 w-72 items-center justify-center sm:h-[22rem] sm:w-[22rem] lg:h-[26rem] lg:w-[26rem]">
-        {/* Lottie layers */}
-        {steps.map((step, i) => (
-          <div
-            key={step.key}
-            className="absolute inset-0 transition-opacity duration-500"
-            style={{ opacity: i === active ? 1 : 0, pointerEvents: i === active ? "auto" : "none" }}
-          >
+        <div className="absolute inset-0 transition-opacity duration-500">
+          {shouldAnimate ? (
             <Lottie
-              animationData={step.animation}
+              key={activeStep.key}
+              animationData={activeStep.animation}
               loop
-              autoplay={i === active}
+              autoplay
               className="h-full w-full"
             />
-          </div>
-        ))}
+          ) : null}
+        </div>
 
         {/* Large foreground icon */}
         <div className="pointer-events-none relative z-10 flex h-28 w-28 items-center justify-center rounded-[1.75rem] border border-white/60 shadow-2xl shadow-emerald-950/10 transition-all duration-500 sm:h-36 sm:w-36">
@@ -136,10 +166,10 @@ export function HeroWorkflowAnimation() {
       {/* Active step label + description */}
       <div className="-mt-8 min-h-[4rem] text-center">
         <p className="text-xl font-semibold text-emerald-950 sm:text-2xl">
-          {steps[active].label}
+          {activeStep.label}
         </p>
         <p className="mt-1.5 text-sm text-emerald-900/65 sm:text-base">
-          {steps[active].description}
+          {activeStep.description}
         </p>
       </div>
 
